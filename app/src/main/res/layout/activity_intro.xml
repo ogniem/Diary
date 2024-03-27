@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.IntroActivity">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/vp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:dotsColor="#A3A3A3"
+        app:selectedDotColor="#766DE6"
+        app:dotsSize="6dp"
+        app:dotsWidthFactor="6.5"
+        app:dotsSpacing="6dp"
+        android:id="@+id/dotindicator"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_continue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_btn_border100"
+        android:padding="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="28dp"
+        android:text="@string/txt_continue"
+        android:textColor="#766DE6"
+        android:textSize="16sp"
+        android:fontFamily="@font/nunito_semibold"
+        android:elevation="2dp"
+        android:shadowColor="#33000000"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

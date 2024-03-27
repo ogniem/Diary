@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Diary</string>
+
+
+    <string name="txt_continue">Continue</string>
+    <string name="intro1">Record your emotions, thoughts and private moments</string>
+    <string name="intro2">Reminder to record diary according to your wishes</string>
+    <string name="intro3">Set a password to keep your diary private and safe</string>
+
+    <string name="english">English</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="arabic">Arabic</string>
+    <string name="bengali">Bengali</string>
+    <string name="rusian">Russian</string>
+    <string name="potuguese">Portuguese</string>
+    <string name="indo">Indonesian</string>
+    <string name="german">German</string>
+    <string name="itali">Italian</string>
+    <string name="korea">Korean</string>
+    <string name="language">Language</string>
+</resources>
