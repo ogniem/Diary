@@ -20,4 +20,8 @@
     <string name="itali">Italian</string>
     <string name="korea">Korean</string>
     <string name="language">Language</string>
+    <string name="what_s_your_name">What\'s your name?</string>
+    <string name="what_do_you_want_us_to_call_you">What do you want us to call you?</string>
+    <string name="first_name">First name...</string>
+    <string name="skip">Skip</string>
 </resources>
