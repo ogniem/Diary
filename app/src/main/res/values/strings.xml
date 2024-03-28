@@ -24,4 +24,10 @@
     <string name="what_do_you_want_us_to_call_you">What do you want us to call you?</string>
     <string name="first_name">First name...</string>
     <string name="skip">Skip</string>
+    <string name="daily_reminder">Daily reminder</string>
+    <string name="you_can_change_the_time_latter_in_setting">You can change the time latter in Setting</string>
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
+    <string name="set_passcode">Set passcode</string>
+    <string name="create_4_digit_pin_for_your_diary">Create 4-Digit Pin for your Diary</string>
 </resources>
