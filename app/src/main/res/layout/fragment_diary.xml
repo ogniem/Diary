@@ -1,8 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.DiaryFragment">
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_bg_title"
+        app:layout_constraintTop_toTopOf="parent"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_diary_1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_hello"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Hello, Dũng"
+        android:fontFamily="@font/nunito_bold"
+        android:textSize="28sp"
+        android:layout_marginTop="30dp"
+        android:shadowColor="#FF8181"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="5"
+        android:layout_marginHorizontal="16dp"
+        android:textColor="@color/white"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_sort"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hello"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/ic_sort"
+        android:elevation="5dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="30dp"
+        />
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/edt_search"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_sort"
+        app:layout_constraintTop_toTopOf="@+id/btn_sort"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_sort"
+        android:background="@drawable/bg_btn_border100"
+        android:gravity="center_vertical"
+        android:backgroundTint="#4DFFFFFF"
+        android:drawableStart="@drawable/ic_left_search"
+        android:padding="5dp"
+        android:drawablePadding="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
+        android:hint="Search..."
+        android:fontFamily="@font/nunito_regular"
+        android:textColor="#383655"
+        android:textColorHint="#636372"
+        android:textSize="14sp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_list_empty"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/img_list_empty"
+        app:layout_constraintTop_toBottomOf="@+id/img_bg_title"
+        android:layout_marginTop="60dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
