@@ -1,5 +1,6 @@
 package com.diary.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -51,7 +52,7 @@ class SetPassCodeActivity : BaseActivity() {
             Log.d("TAG123", "onCreate: nút 0")
         }
         binding.btnContinue.setOnClickListener {
-
+            startActivity(Intent(this, SecurityQuestionActivity::class.java))
         }
     }
 }

@@ -30,4 +30,11 @@
     <string name="pm">PM</string>
     <string name="set_passcode">Set passcode</string>
     <string name="create_4_digit_pin_for_your_diary">Create 4-Digit Pin for your Diary</string>
+    <string name="set_security_question">Set Security Question</string>
+    <string name="select_security_question">Select security question</string>
+    <string name="recovery_answer">Recovery Answer</string>
+    <string name="answer">Answer....</string>
+    <string name="save">Save</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
