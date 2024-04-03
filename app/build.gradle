@@ -56,4 +56,9 @@ dependencies {
     implementation("com.tbuonomo:dotsindicator:5.0")
 
     implementation 'com.github.poovamraj:PinEditTextField:1.2.6'
+
+    implementation "androidx.room:room-runtime:2.4.2"
+    annotationProcessor "androidx.room:room-compiler:2.4.2"
+    // Ktx for coroutines
+    implementation "androidx.room:room-ktx:2.4.2"
 }

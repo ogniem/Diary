@@ -1,12 +1,13 @@
 package com.diary.activity
 
-import android.R
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
 import androidx.fragment.app.Fragment
 import com.diary.Common.invisible
 import com.diary.Common.visible
+import com.diary.database.DiaryDatabase
+import com.diary.database.DiaryEntry
 import com.diary.databinding.ActivityMainBinding
 import com.diary.fragment.CalendarFragment
 import com.diary.fragment.DiaryFragment
@@ -91,6 +92,8 @@ class MainActivity : BaseActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragContainer.id, fragment)
         transaction.commit()
+
+
     }
 
 
