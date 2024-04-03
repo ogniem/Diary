@@ -35,6 +35,15 @@
     <string name="recovery_answer">Recovery Answer</string>
     <string name="answer">Answer....</string>
     <string name="save">Save</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="how_are_you_feeling_right_now">How are you feeling right now?</string>
+    <string name="set_date">Set date</string>
+    <string name="cancel">Cancel</string>
+    <string name="emotion_1">Furious</string>
+    <string name="emotion_2">Terrible</string>
+    <string name="emotion_3">Bad</string>
+    <string name="emotion_4">Normal</string>
+    <string name="emotion_5">Pleased</string>
+    <string name="emotion_6">Excellent</string>
+    <string name="emotion_7">Amazing</string>
 </resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_dialog_calendar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_radius_16"
+    android:backgroundTint="#383655"
+    android:orientation="vertical">
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendar"
+        android:dateTextAppearance="@style/CalenderViewDateCustomText"
+        android:theme="@style/CalenderViewCustom"
+        android:weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_setdate_popup"
+        android:text="@string/set_date"
+        android:background="@drawable/bg_btn_border100"
+        android:textColor="#383655"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_marginHorizontal="30dp"
+        android:paddingVertical="16dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_cancel_popup"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_marginHorizontal="30dp"
+        android:paddingVertical="16dp"
+        />
+</LinearLayout>

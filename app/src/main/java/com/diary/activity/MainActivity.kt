@@ -1,13 +1,12 @@
 package com.diary.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
 import androidx.fragment.app.Fragment
 import com.diary.Common.invisible
 import com.diary.Common.visible
-import com.diary.database.DiaryDatabase
-import com.diary.database.DiaryEntry
 import com.diary.databinding.ActivityMainBinding
 import com.diary.fragment.CalendarFragment
 import com.diary.fragment.DiaryFragment
@@ -34,6 +33,10 @@ class MainActivity : BaseActivity() {
         }
         binding.btnSetting.setOnClickListener {
             selectFragment(4)
+        }
+
+        binding.btnAdd.setOnClickListener {
+            startActivity(Intent(this, AddDiaryActivity::class.java))
         }
     }
 

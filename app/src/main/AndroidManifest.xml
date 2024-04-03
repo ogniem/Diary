@@ -21,6 +21,9 @@
         android:theme="@style/Theme.PoloCloset"
         tools:targetApi="31">
         <activity
+            android:name=".activity.AddDiaryActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="false" />
         <activity
