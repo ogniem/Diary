@@ -21,7 +21,7 @@ class DiaryDayAdapter(private val diaryEntries: List<DiaryEntry>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val diaryEntry = diaryEntries[position]
         holder.tvTitle.text = "Helllo"
-        holder.tvTime.text = "adfgasdgasdg thứ 2"
+        holder.tvTime.text = "Friday" + "  " + "09:47 PM"
 //        when (diaryEntry.emotion) {
 //            1 -> holder.ivEmotion.setImageResource(R.drawable.ic_emot   ion_happy)
 //            2 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_sad)

@@ -24,8 +24,7 @@ public class DiaryEntry {
     public DiaryEntry() {
     }
 
-    public DiaryEntry(int id, String date, String time, int emotion, String title, String[] imageLinks, String content) {
-        this.id = id;
+    public DiaryEntry(String date, String time, int emotion, String title, String[] imageLinks, String content) {
         this.date = date;
         this.time = time;
         this.emotion = emotion;

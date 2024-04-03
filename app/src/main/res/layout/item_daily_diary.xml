@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv_time_diary_day"
-        android:layout_marginTop="8dp"
         android:text="Today 09:47 PM"
         android:fontFamily="@font/nunito_medium"
         android:textSize="12sp"
@@ -30,6 +29,6 @@
         android:layout_height="30dp"
         android:adjustViewBounds="true"
         android:id="@+id/img_emotion_diary_day"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>
