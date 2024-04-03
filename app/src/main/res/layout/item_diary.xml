@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="16dp"
+    android:background="@drawable/bg_radius_16"
+    android:layout_marginVertical="4dp"
+    android:orientation="horizontal"
+    android:elevation="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_day_diary"
+            android:text="14"
+            android:textSize="20sp"
+            android:textColor="#766DE6"
+            android:fontFamily="@font/nunito_medium"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_month_diary"
+            android:text="Jan"
+            android:layout_marginVertical="12dp"
+            android:textSize="12sp"
+            android:textColor="#A3A3A3"
+            android:fontFamily="@font/nunito_regular"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_year_diary"
+            android:text="2023"
+            android:textSize="12sp"
+            android:textColor="#A3A3A3"
+            android:fontFamily="@font/nunito_regular"
+            />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/rcv_diary_day"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"/>
+</LinearLayout>

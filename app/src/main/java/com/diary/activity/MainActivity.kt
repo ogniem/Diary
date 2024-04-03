@@ -93,7 +93,6 @@ class MainActivity : BaseActivity() {
         transaction.replace(binding.fragContainer.id, fragment)
         transaction.commit()
 
-
     }
 
 
