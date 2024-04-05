@@ -1,5 +1,6 @@
 package com.diary.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,12 +15,11 @@ import com.diary.R
 import com.diary.databinding.ActivityAddDiaryBinding
 import com.diary.databinding.DialogCalendarBinding
 import java.util.Calendar
-import java.util.Date
 
 
 class AddDiaryActivity : BaseActivity() {
     private val binding by lazy { ActivityAddDiaryBinding.inflate(layoutInflater) }
-    private var timeCreate = Date()
+    private var timeCreate = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,19 +81,15 @@ class AddDiaryActivity : BaseActivity() {
             popupWindow.width = WindowManager.LayoutParams.WRAP_CONTENT
             popupWindow.height = WindowManager.LayoutParams.WRAP_CONTENT
             popupWindow.isFocusable = true
-            val dimmedBackground =
-                ColorDrawable(Color.BLACK) // Adjust alpha for desired darkness (0 - fully transparent, 255 - fully opaque)
-            dimmedBackground.alpha =
-                128 // Adjust alpha value here (example: 128 for semi-transparent)
-            popupWindow.setBackgroundDrawable(dimmedBackground)
             popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             popupWindow.showAsDropDown(binding.btnCalendar)
 
-            var daySelect = timeCreate.day
-            var monthSelect = timeCreate.month
-            var yearSelect = timeCreate.year
 
-            Log.d("TAG123", "onCreate: " + daySelect + " " + monthSelect + " " + yearSelect)
+            var daySelect = timeCreate.get(Calendar.DAY_OF_MONTH)
+            var monthSelect = timeCreate.get(Calendar.MONTH)
+            var yearSelect = timeCreate.get(Calendar.YEAR)
+
+            bindingDialog.calendar.date = timeCreate.timeInMillis
 
             bindingDialog.calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
                 daySelect = dayOfMonth
@@ -104,13 +100,27 @@ class AddDiaryActivity : BaseActivity() {
             bindingDialog.btnCancelPopup.setOnClickListener {
                 popupWindow.dismiss()
             }
-            bindingDialog.btnSetdatePopup.setOnClickListener {
-                timeCreate.year = yearSelect
-                timeCreate.month = monthSelect
-                timeCreate.date = daySelect
 
-                Log.d("TAG123", "onCreate: " + timeCreate.toString())
+            bindingDialog.btnSetdatePopup.setOnClickListener {
+                timeCreate.set(Calendar.YEAR, yearSelect)
+                timeCreate.set(Calendar.MONTH, monthSelect)
+                timeCreate.set(Calendar.DAY_OF_MONTH, daySelect)
+                popupWindow.dismiss()
             }
+        }
+
+        binding.btnContinue.setOnClickListener {
+            val intent = Intent(this, CreateDiaryActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("TIME_CREATE", timeCreate)
+            intent.putExtras(bundle)
+            intent.putExtra("EMOTION", binding.sbEmotion.progress)
+            startActivity(intent)
+        }
+
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+            finish()
         }
 
     }

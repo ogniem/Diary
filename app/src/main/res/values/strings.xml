@@ -46,4 +46,7 @@
     <string name="emotion_5">Pleased</string>
     <string name="emotion_6">Excellent</string>
     <string name="emotion_7">Amazing</string>
+    <string name="title">Title</string>
+    <string name="add_to_my_diary">Add to my diary</string>
+    <string name="what_s_one_your_mind">What\'s one your mind....</string>
 </resources>
