@@ -7,10 +7,17 @@ import android.content.Context.MODE_PRIVATE
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
+import com.diary.database.DiaryEntry
+import com.diary.model.Day
 import com.diary.model.Language
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
+
 object Common {
+
+    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     fun getListLanguages(): List<Language> {
         return listOf(
             Language(R.string.english, R.drawable.ic_england_flag, "en"),
@@ -108,4 +115,40 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("PASS_CODE", "") ?: ""
     }
+
+    fun Calendar.convertCalendarToString(): String {
+        return simpleDateFormat.format(this.time)
+    }
+
+    fun String.convertStringToCalendar(): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(simpleDateFormat.parse(this).time)
+        return calendar
+    }
+
+    fun Calendar.getDay(): Int {
+        return this.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun Calendar.getMonth(): Int {
+        return (this.get(Calendar.MONTH) + 1)
+    }
+
+    fun Calendar.getYear(): Int {
+        return this.get(Calendar.YEAR)
+    }
+
+    fun getListDayHasDiary(listDiary: List<DiaryEntry?>?): List<Day> {
+        val list: MutableList<Day> = ArrayList()
+
+        for (diary in listDiary!!) {
+            val calendar = diary!!.timeCreate!!.convertStringToCalendar()
+            var day = Day(calendar.getDay(), calendar.getMonth(), calendar.getYear())
+            if (!list.contains(day)) {
+                list.add(day)
+            }
+        }
+        return list
+    }
+
 }

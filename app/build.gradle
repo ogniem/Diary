@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -40,6 +41,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    kapt "androidx.room:room-compiler:2.4.0"
 
     implementation "androidx.core:core-ktx:1.10.1"
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -58,7 +60,14 @@ dependencies {
     implementation 'com.github.poovamraj:PinEditTextField:1.2.6'
 
     implementation "androidx.room:room-runtime:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.0"
     annotationProcessor "androidx.room:room-compiler:2.4.2"
     // Ktx for coroutines
     implementation "androidx.room:room-ktx:2.4.2"
+
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
 }

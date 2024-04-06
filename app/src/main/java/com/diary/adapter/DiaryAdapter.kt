@@ -1,20 +1,28 @@
 package com.diary.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.diary.Common.convertStringToCalendar
+import com.diary.Common.getDay
+import com.diary.Common.getMonth
+import com.diary.Common.getYear
 import com.diary.Common.gone
 import com.diary.Common.invisible
-import com.diary.Common.visible
 import com.diary.R
 import com.diary.database.DiaryEntry
+import com.diary.model.Day
 import java.util.Arrays
-import java.util.Date
 
 
-class DiaryAdapter(private val diaryDays: List<Date>) :
+class DiaryAdapter(
+    private val context: Context,
+    private val diaryDays: List<Day>?,
+    private val diarylist: List<DiaryEntry?>?
+) :
     RecyclerView.Adapter<DiaryAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View =
@@ -24,24 +32,26 @@ class DiaryAdapter(private val diaryDays: List<Date>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pos = position
-        val diaryDay = diaryDays[position]
-        holder.tvDay.text = "14"
-        holder.tvMonth.text = "Jan"
-        holder.tvYear.text = "2024"
+        val diaryDay = diaryDays?.get(position)
+
+
+        holder.tvDay.text = diaryDay?.day.toString()
+        holder.tvMonth.text = diaryDay?.month.toString()
+        holder.tvYear.text = diaryDay?.year.toString()
 
         // Set DiaryDayAdapter
-        val diaryDayAdapter = DiaryDayAdapter(generateDiaryEntries())
+        val diaryDayAdapter = DiaryDayAdapter(context, getDiaryOnADay(diaryDay!!))
         holder.rvDiaryDays.setAdapter(diaryDayAdapter)
 
-        if (pos == diaryDays.size-1){
+        if (pos == diaryDays!!.size - 1) {
             holder.viewSpace.invisible()
-        }else{
+        } else {
             holder.viewSpace.gone()
         }
     }
 
     override fun getItemCount(): Int {
-        return diaryDays.size
+        return diaryDays!!.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,24 +70,19 @@ class DiaryAdapter(private val diaryDays: List<Date>) :
         }
     }
 
-    private fun getDiaryDays(date: Date): List<DiaryEntry> {
-        return Arrays.asList(DiaryEntry())
-    }
-    fun generateDiaryEntries(): List<DiaryEntry> {
-        val diaryEntries: MutableList<DiaryEntry> = ArrayList()
+    private fun getDiaryOnADay(day: Day): List<DiaryEntry> {
+        val listDiaryInADay = mutableListOf<DiaryEntry>()
 
-        // Thêm dữ liệu mẫu
-        diaryEntries.add(
-            DiaryEntry(
-                "Ngày 1",
-                "Thứ Hai",
-                1,
-                "Hello",
-                mutableListOf("https://picsum.photos/200/300").toTypedArray(),
-                "ngayf đẹp"
-            )
-        )
-        return diaryEntries
+        if (diarylist != null) {
+            for (diary in diarylist) {
+                val calendar = diary?.timeCreate?.convertStringToCalendar()
+                if (calendar?.getDay() == day.day && calendar.getMonth() == day.month && calendar.getYear() == day.year) {
+                    listDiaryInADay.add(diary)
+                }
+            }
+        }
+
+        return listDiaryInADay
     }
 }
 

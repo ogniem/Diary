@@ -1,16 +1,18 @@
 package com.diary.fragment
 
-import android.R
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.lifecycleScope
+import com.diary.Common
 import com.diary.adapter.DiaryAdapter
+import com.diary.database.DiaryDatabase
 import com.diary.databinding.FragmentDiaryBinding
-import java.util.Date
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class DiaryFragment : Fragment() {
@@ -19,25 +21,20 @@ class DiaryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var dates: MutableList<Date> = ArrayList()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val database = DiaryDatabase.getInstance(requireContext())
+                val dao = database?.diaryEntryDao()
+                val listDiary = dao?.allDiaryEntries
 
-        val date = Date()
+                val listDayHasDiary = Common.getListDayHasDiary(listDiary)
+                val adapter = DiaryAdapter(requireContext(), listDayHasDiary, listDiary)
 
-        dates.add(date)
+                binding.rcvDiary.setAdapter(adapter)
+            }
+        }
 
-        dates.add(date)
 
-        dates.add(date)
-        dates.add(date)
-        dates.add(date)
-        dates.add(date)
-        dates.add(date)
-
-        Log.d("TAG123", "onCreateView: "+dates.size)
-
-        val adapter = DiaryAdapter(dates)
-
-        binding.rcvDiary.setAdapter(adapter)
     }
 
     override fun onCreateView(

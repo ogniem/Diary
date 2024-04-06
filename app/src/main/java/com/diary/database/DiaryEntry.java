@@ -9,27 +9,28 @@ public class DiaryEntry {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String date;
-
-    private String time;
+    private String timeCreate;
 
     private int emotion;
 
     private String title;
 
-    private String[] imageLinks;
+    private String imageLink1;
+    private String imageLink2;
+    private String imageLink3;
 
     private String content;
 
     public DiaryEntry() {
     }
 
-    public DiaryEntry(String date, String time, int emotion, String title, String[] imageLinks, String content) {
-        this.date = date;
-        this.time = time;
+    public DiaryEntry(String timeCreate, int emotion, String title, String imageLink1, String imageLink2, String imageLink3, String content) {
+        this.timeCreate = timeCreate;
         this.emotion = emotion;
         this.title = title;
-        this.imageLinks = imageLinks;
+        this.imageLink1 = imageLink1;
+        this.imageLink2 = imageLink2;
+        this.imageLink3 = imageLink3;
         this.content = content;
     }
 
@@ -41,20 +42,12 @@ public class DiaryEntry {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public String getTimeCreate() {
+        return timeCreate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeCreate(String timeCreate) {
+        this.timeCreate = timeCreate;
     }
 
     public int getEmotion() {
@@ -73,12 +66,28 @@ public class DiaryEntry {
         this.title = title;
     }
 
-    public String[] getImageLinks() {
-        return imageLinks;
+    public String getImageLink1() {
+        return imageLink1;
     }
 
-    public void setImageLinks(String[] imageLinks) {
-        this.imageLinks = imageLinks;
+    public void setImageLink1(String imageLink1) {
+        this.imageLink1 = imageLink1;
+    }
+
+    public String getImageLink2() {
+        return imageLink2;
+    }
+
+    public void setImageLink2(String imageLink2) {
+        this.imageLink2 = imageLink2;
+    }
+
+    public String getImageLink3() {
+        return imageLink3;
+    }
+
+    public void setImageLink3(String imageLink3) {
+        this.imageLink3 = imageLink3;
     }
 
     public String getContent() {

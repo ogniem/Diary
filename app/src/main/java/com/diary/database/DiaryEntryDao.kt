@@ -11,12 +11,11 @@ interface DiaryEntryDao {
     @Insert
     fun insertDiaryEntry(diaryEntry: DiaryEntry?)
 
-    @get:Query("SELECT * FROM diary_entries ORDER BY date DESC")
+    @get:Query("SELECT * FROM diary_entries ORDER BY timeCreate DESC")
     val allDiaryEntries: List<DiaryEntry?>?
 
-    @Query("SELECT * FROM diary_entries WHERE date = :date")
+    @Query("SELECT * FROM diary_entries WHERE timeCreate = :date")
     fun getDiaryEntryByDate(date: String?): DiaryEntry?
-
     @Update
     fun updateDiaryEntry(diaryEntry: DiaryEntry?)
 
