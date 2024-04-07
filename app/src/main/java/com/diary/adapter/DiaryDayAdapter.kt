@@ -1,14 +1,17 @@
 package com.diary.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common.convertStringToCalendar
 import com.diary.R
+import com.diary.activity.EditDiaryActivity
 import com.diary.database.DiaryEntry
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -56,6 +59,11 @@ class DiaryDayAdapter(private val context: Context, private val diaryEntries: Li
             5 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_6)
             6 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_7)
         }
+
+        holder.layout.setOnClickListener {
+            val intent = Intent(context, EditDiaryActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -66,11 +74,13 @@ class DiaryDayAdapter(private val context: Context, private val diaryEntries: Li
         var tvTitle: TextView
         var tvTime: TextView
         var ivEmotion: ImageView
+        lateinit var layout: LinearLayout
 
         init {
             tvTitle = itemView.findViewById<TextView>(R.id.tv_title_diary_day)
             tvTime = itemView.findViewById<TextView>(R.id.tv_time_diary_day)
             ivEmotion = itemView.findViewById<ImageView>(R.id.img_emotion_diary_day)
+            layout = itemView.findViewById(R.id.ln_item_diary_day)
         }
     }
 }

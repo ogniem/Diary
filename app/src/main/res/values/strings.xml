@@ -58,4 +58,9 @@
     <string name="thursday">Thursday</string>
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="choose_image">Choose image</string>
+    <string name="delete_img">Delete Image?</string>
+    <string name="no_cancel">No, cancel</string>
+    <string name="yes_delete">Yes, delete</string>
 </resources>

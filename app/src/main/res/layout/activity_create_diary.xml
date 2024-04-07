@@ -82,7 +82,7 @@
                 android:orientation="horizontal"
                 android:background="@drawable/bg_radius_16_stroke"
                 android:padding="12dp"
-                android:gravity="center">
+                android:gravity="center|bottom">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -139,15 +139,23 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         />
-
-                    <ImageView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:id="@+id/img_2"
-                        android:src="@drawable/img_empty"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardElevation="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:cardCornerRadius="12dp">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:id="@+id/img_2"
+                            android:src="@drawable/img_empty"
+                            android:scaleType="centerCrop"/>
+                    </androidx.cardview.widget.CardView>
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,15 +175,22 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         />
-
-                    <ImageView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:id="@+id/img_3"
-                        android:src="@drawable/img_empty"
+                        app:cardBackgroundColor="@color/transparent"
+                        app:cardElevation="0dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:cardCornerRadius="12dp">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:id="@+id/img_3"
+                            android:src="@drawable/img_empty"
+                            android:scaleType="centerCrop"/>
+                    </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
