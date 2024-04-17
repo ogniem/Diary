@@ -24,6 +24,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".activity.EditDiaryActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".activity.AddDiaryActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
