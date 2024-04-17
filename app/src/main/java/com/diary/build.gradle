@@ -1,3 +1,4 @@
+package com.diary
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -17,7 +18,7 @@ android {
         versionName "8.8.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        archivesBaseName = "Polo_Closet_v${versionName}"
+        archivesBaseName = "Diary${versionName}"
     }
 
     buildTypes {

@@ -54,7 +54,7 @@
         android:layout_marginTop="60dp"
         android:text="@string/how_are_you_feeling_right_now"
         android:layout_marginHorizontal="50dp"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:gravity="center"
         android:fontFamily="@font/nunito_bold"
         android:textColor="#383655"/>

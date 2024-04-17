@@ -8,11 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
 
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,19 +17,23 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_app"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PoloCloset"
+        android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
             android:name=".activity.CreateDiaryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activity.AddDiaryActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activity.SecurityQuestionActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".activity.SetPassCodeActivity"
@@ -61,6 +62,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".activity.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
