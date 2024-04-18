@@ -91,6 +91,21 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("USER_NAME", "") ?: ""
     }
+    fun convertTimeToString(hour: String, minute: String, isAM: Boolean): String {
+        val period = if (isAM) "AM" else "PM"
+        return String.format("%s:%s %s", hour, minute, period)
+    }
+
+    fun convertStringToTime(timeString: String): Triple<String, String, Boolean>? {
+        val parts = timeString.split(":", " ")
+        if (parts.size != 3) return null
+
+        val hour = parts[0]
+        val minute = parts[1]
+        val isAM = parts[2].equals("AM", ignoreCase = true)
+
+        return Triple(hour, minute, isAM)
+    }
 
     fun Context.setDailyReminder(timeDailyReminder: String) {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
@@ -99,7 +114,7 @@ object Common {
         editor.apply()
     }
 
-    fun Context.setDailyReminder(): String {
+    fun Context.getDailyReminder(): String {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("DAILY_REMINDER", "") ?: ""
     }
@@ -150,5 +165,12 @@ object Common {
         }
         return list
     }
-
+    fun convertAmPmTo24Hour(time: String): String {
+        val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val date = sdf.parse(time)
+        val cal = Calendar.getInstance()
+        date?.let { cal.time = it }
+        val hour24 = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return hour24.format(cal.time)
+    }
 }

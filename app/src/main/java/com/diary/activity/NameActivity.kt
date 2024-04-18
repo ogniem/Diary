@@ -23,5 +23,12 @@ class NameActivity : BaseActivity() {
             setUserName(binding.edtUsername.text.toString())
             startActivity(Intent(this, ReminderActivity::class.java))
         }
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
+        binding.btnSkip.setOnClickListener {
+            finishAffinity()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
     }
 }

@@ -44,6 +44,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/nunito_regular"
             android:gravity="center"
+            android:id="@+id/tv_status"
             android:text="@string/create_4_digit_pin_for_your_diary"
             android:textColor="#383655"
             android:textSize="14sp" />
@@ -58,6 +59,8 @@
             android:textSelectHandle="@drawable/text_handle"
             android:textSize="16sp"
             app:circleRadius="8dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             app:distanceInBetween="18dp"
             app:fieldBgColor="@color/white"
             app:fillerColor="#383655"
@@ -100,7 +103,7 @@
             android:weightSum="3">
 
             <Button
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -109,14 +112,14 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number2"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number3"/>
         </LinearLayout>
@@ -131,14 +134,14 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number4"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number5"/>
 
@@ -146,7 +149,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="#00000000"
                 android:id="@+id/btn_number6"/>
         </LinearLayout>
 
@@ -160,14 +163,14 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number7"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number8"/>
 
@@ -175,7 +178,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="#00000000"
                 android:id="@+id/btn_number9"/>
         </LinearLayout>
 
@@ -189,13 +192,13 @@
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@null"
+                android:background="#00000000"
                 android:layout_weight="1"
                 android:id="@+id/btn_number0"/>
 
@@ -203,7 +206,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="#00000000"
                 android:id="@+id/btn_backspace"/>
         </LinearLayout>
     </LinearLayout>

@@ -13,7 +13,7 @@ class SplashActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.btnContinue.setOnClickListener {
-            startActivity(Intent(this,  MainActivity::class.java))
+            startActivity(Intent(this,  SetPassCodeActivity::class.java))
             finish()
         }
     }

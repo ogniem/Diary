@@ -70,6 +70,8 @@
             android:name=".activity.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <receiver android:name=".AlarmReceiver"/>
+
     </application>
 
 </manifest>

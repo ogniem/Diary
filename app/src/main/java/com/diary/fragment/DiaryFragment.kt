@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common
+import com.diary.Common.getUserName
+import com.diary.R
 import com.diary.adapter.DiaryAdapter
 import com.diary.database.DiaryDatabase
 import com.diary.databinding.FragmentDiaryBinding
@@ -20,6 +22,13 @@ class DiaryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (!requireContext().getUserName().isBlank()) {
+            binding.tvHello.text = getString(R.string.hello) + " " + requireContext().getUserName()
+        }else{
+            binding.tvHello.text = getString(R.string.hello_noname)
+        }
+
 
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {

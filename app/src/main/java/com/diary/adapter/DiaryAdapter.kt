@@ -15,7 +15,6 @@ import com.diary.Common.invisible
 import com.diary.R
 import com.diary.database.DiaryEntry
 import com.diary.model.Day
-import java.util.Arrays
 
 
 class DiaryAdapter(
@@ -62,11 +61,11 @@ class DiaryAdapter(
         var viewSpace: View
 
         init {
-            tvDay = itemView.findViewById<TextView>(R.id.tv_day_diary)
-            tvMonth = itemView.findViewById<TextView>(R.id.tv_month_diary)
-            tvYear = itemView.findViewById<TextView>(R.id.tv_year_diary)
-            rvDiaryDays = itemView.findViewById<RecyclerView>(R.id.rcv_diary_day)
-            viewSpace = itemView.findViewById<View>(R.id.view_space)
+            tvDay = itemView.findViewById(R.id.tv_day_diary)
+            tvMonth = itemView.findViewById(R.id.tv_month_diary)
+            tvYear = itemView.findViewById(R.id.tv_year_diary)
+            rvDiaryDays = itemView.findViewById(R.id.rcv_diary_day)
+            viewSpace = itemView.findViewById(R.id.view_space)
         }
     }
 
