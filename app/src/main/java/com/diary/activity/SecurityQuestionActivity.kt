@@ -18,11 +18,14 @@ class SecurityQuestionActivity : BaseActivity() {
             this,
             R.layout.item_spiner,
             arrayOf(
-                "Where were you born?",
-                "What is the name of your primary school?",
-                "What is your nickname at home?"
+                getText(R.string.question_1),
+                getText(R.string.question_2),
+                getText(R.string.question_3),
+                getText(R.string.question_4),
+                getText(R.string.question_5),
             )
         )
+
         binding.spv.adapter = adapter
 
         binding.btnSave.setOnClickListener {

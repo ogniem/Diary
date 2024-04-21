@@ -16,6 +16,7 @@ import com.diary.databinding.ActivitySetPassCodeBinding
 class SetPassCodeActivity : BaseActivity() {
     private val binding by lazy { ActivitySetPassCodeBinding.inflate(layoutInflater) }
     private var isConfirm = false
+    private var passCodeNow = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -68,9 +69,35 @@ class SetPassCodeActivity : BaseActivity() {
             if (isConfirm && binding.edtPasscode.text.toString().length == 4) {
                 setPasscode(binding.edtPasscode.text.toString())
                 startActivity(Intent(this, SecurityQuestionActivity::class.java))
-            }else{
-                binding.tvStatus.text
+            } else {
+                binding.tvStatus.text = getText(R.string.finish_confirm_pin)
+                if (isConfirm) {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.tvStatus.text = getText(R.string.confirm_pin)
+                    }, 3000)
+                } else {
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.tvStatus.text = getText(R.string.create_4_digit_pin_for_your_diary)
+                    }, 3000)
+                }
             }
+        }
+        binding.btnSkip.setOnClickListener {
+            finishAffinity()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!isConfirm) {
+            super.onBackPressed()
+        } else {
+            binding.tvStatus.text = getText(R.string.create_4_digit_pin_for_your_diary)
+            isConfirm = false
+            binding.edtPasscode.setText("")
         }
     }
 
@@ -82,8 +109,18 @@ class SetPassCodeActivity : BaseActivity() {
                 val textCurrent = binding.edtPasscode.text.toString()
                 binding.edtPasscode.setText(textCurrent + key)
                 if ((textCurrent + key).length == 4) {
-                    binding.tvStatus.text = getText(R.string.confirm_pin)
-                    isConfirm = true
+                    val passCodeConfirm = textCurrent + key
+                    if (!isConfirm) {
+                        passCodeNow = passCodeConfirm
+                        binding.tvStatus.text = getText(R.string.confirm_pin)
+                        isConfirm = true
+                        binding.edtPasscode.setText("")
+                    } else if (passCodeNow == passCodeConfirm) {
+                        startActivity(Intent(this, SecurityQuestionActivity::class.java))
+                    }else{
+                        binding.tvStatus.text = getText(R.string.passcode_fail)
+                        binding.edtPasscode.setText("")
+                    }
                 }
             }
         } else {
@@ -94,5 +131,12 @@ class SetPassCodeActivity : BaseActivity() {
                 binding.edtPasscode.setText(textCurrent.dropLast(1))
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isConfirm = false
+        binding.edtPasscode.setText("")
+        binding.tvStatus.text = getText(R.string.create_4_digit_pin_for_your_diary)
     }
 }

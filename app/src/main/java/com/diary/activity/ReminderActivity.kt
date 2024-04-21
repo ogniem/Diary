@@ -93,6 +93,13 @@ class ReminderActivity : BaseActivity() {
             )
             startActivity(Intent(this, SetPassCodeActivity::class.java))
         }
+        binding.btnSkip.setOnClickListener {
+            finishAffinity()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun setSelectAM_PM() {

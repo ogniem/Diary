@@ -31,9 +31,18 @@
     <string name="set_passcode">Set passcode</string>
     <string name="create_4_digit_pin_for_your_diary">Create 4-Digit Pin for your Diary</string>
     <string name="confirm_pin">Confirm Pin Code</string>
+    <string name="finish_confirm_pin">You need to complete the passcode setting before continuing to the next step!</string>
+    <string name="passcode_fail">You need to enter the correct passcode you set earlier</string>
     <string name="set_security_question">Set Security Question</string>
     <string name="select_security_question">Select security question</string>
     <string name="recovery_answer">Recovery Answer</string>
+
+    <string name="question_1">"What is your mother's name?"</string>
+    <string name="question_2">"What is your father's name?"</string>
+    <string name="question_3">"What is the name of your first school?"</string>
+    <string name="question_4">"Where were you born?"</string>
+    <string name="question_5">"Which color do you like better, blue or green?"</string>
+
     <string name="answer">Answer....</string>
     <string name="save">Save</string>
     <string name="how_are_you_feeling_right_now">How are you feeling right now?</string>
