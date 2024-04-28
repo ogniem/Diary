@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.diary.Common.invisible
 import com.diary.Common.visible
 import com.diary.databinding.ActivityMainBinding
-import com.diary.fragment.CalendarFragment
+import com.diary.fragment.ScheduleFragment
 import com.diary.fragment.DiaryFragment
 import com.diary.fragment.ReportFragment
 import com.diary.fragment.SettingFragment
@@ -64,7 +64,7 @@ class MainActivity : BaseActivity() {
                 binding.dotReport.invisible()
                 binding.icSetting.setColorFilter(Color.parseColor("#A3A3A3"))
                 binding.dotSetting.invisible()
-                replaceFragment(CalendarFragment())
+                replaceFragment(ScheduleFragment())
             }
             3 ->{
                 binding.icDiary.setColorFilter(Color.parseColor("#A3A3A3"))

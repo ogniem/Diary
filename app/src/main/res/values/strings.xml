@@ -80,4 +80,5 @@
     <string name="forgot_your_password_recover_now">Forgot your password? Recover now!</string>
 
     <string name="error_pass">Error Passcode\n</string>
+    <string name="schedule">Schedule</string>
 </resources>

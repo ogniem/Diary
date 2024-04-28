@@ -14,15 +14,15 @@ class SplashActivity : BaseActivity() {
         setContentView(binding.root)
 
         binding.btnContinue.setOnClickListener {
-            if (getPasscode().isNotBlank()) {
-                showDialog {
-                    startActivity(Intent(this, IntroActivity::class.java))
-                    finish()
-                }
-            } else {
-                startActivity(Intent(this, IntroActivity::class.java))
+//            if (getPasscode().isNotBlank()) {
+//                showDialog {
+//                    startActivity(Intent(this, MainActivity::class.java))
+//                    finish()
+//                }
+//            } else {
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
-            }
+//            }
         }
     }
 }

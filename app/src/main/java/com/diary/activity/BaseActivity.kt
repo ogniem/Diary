@@ -46,10 +46,10 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (enableShowDialog && getPasscode().isNotBlank()) {
-            showDialog {}
-            enableShowDialog = false
-        }
+//        if (enableShowDialog && getPasscode().isNotBlank()) {
+//            showDialog {}
+//            enableShowDialog = false
+//        }
     }
 
     fun showDialog(onCancelDialog: () -> Unit) {
