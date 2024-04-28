@@ -17,7 +17,11 @@ class LanguageActivity : BaseActivity() {
         binding.rcvLang.adapter = adapter
         binding.btnDone.setOnClickListener {
             Common.saveLanguage(this, adapter.getSelected())
-            startActivity(Intent(this, NameActivity::class.java))
+            if(isFirstOpenApp()){
+                startActivity(Intent(this, NameActivity::class.java))
+            }else{
+                startActivity(Intent(this, MainActivity::class.java))
+            }
             finish()
 
         }

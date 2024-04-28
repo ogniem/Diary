@@ -75,4 +75,9 @@
 
     <string name="hello">Hello,</string>
     <string name="hello_noname">Hello, No name</string>
+    <string name="enter_your_passcode">Enter your passcode</string>
+    <string name="you_need_to_enter_the_passcode_to_continue_using_the_application">You need to enter the passcode to continue using the application</string>
+    <string name="forgot_your_password_recover_now">Forgot your password? Recover now!</string>
+
+    <string name="error_pass">Error Passcode\n</string>
 </resources>

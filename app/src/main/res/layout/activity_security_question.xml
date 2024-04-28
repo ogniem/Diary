@@ -76,7 +76,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edt_username"
+            android:id="@+id/edt_answer"
             android:hint="@string/answer"
             android:textColor="@color/black"
             android:textSize="14sp"

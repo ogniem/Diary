@@ -3,6 +3,8 @@ package com.diary.activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import com.diary.Common.setSercurityAns
+import com.diary.Common.setSercurityQues
 import com.diary.R
 import com.diary.databinding.ActivitySecurityQuestionBinding
 
@@ -28,8 +30,16 @@ class SecurityQuestionActivity : BaseActivity() {
 
         binding.spv.adapter = adapter
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         binding.btnSave.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            if (binding.edtAnswer.text.isNotBlank()) {
+                setSercurityQues(binding.spv.selectedItemPosition)
+                setSercurityAns(binding.edtAnswer.text.toString())
+                startActivity(Intent(this, MainActivity::class.java))
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 
 package com.diary
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.res.Resources
@@ -17,7 +18,8 @@ import java.util.Locale
 
 object Common {
 
-    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    @SuppressLint("SimpleDateFormat")
+    private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     fun getListLanguages(): List<Language> {
         return listOf(
             Language(R.string.english, R.drawable.ic_england_flag, "en"),
@@ -68,7 +70,7 @@ object Common {
         return sharedPreferences.getInt("KEY_LANG", 0)
     }
 
-    fun Context.setNotFirstOpenApp() {
+    fun Context.setFirstOpenApp() {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putBoolean("FIRST_OPEN", false)
@@ -130,7 +132,28 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("PASS_CODE", "") ?: ""
     }
+    fun Context.setSercurityQues(pos:Int) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("SERCURITY_QUES", pos)
+        editor.apply()
+    }
 
+    fun Context.getSercurityAns(): String {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getString("SERCURITY_ANS", "")?:""
+    }
+    fun Context.setSercurityAns(ans:String) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("SERCURITY_ANS", ans)
+        editor.apply()
+    }
+
+    fun Context.getSercurityQues(): Int {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getInt("SERCURITY_QUES", 0)
+    }
     fun Calendar.convertCalendarToString(): String {
         return simpleDateFormat.format(this.time)
     }
@@ -158,19 +181,11 @@ object Common {
 
         for (diary in listDiary!!) {
             val calendar = diary!!.timeCreate!!.convertStringToCalendar()
-            var day = Day(calendar.getDay(), calendar.getMonth(), calendar.getYear())
+            val day = Day(calendar.getDay(), calendar.getMonth(), calendar.getYear())
             if (!list.contains(day)) {
                 list.add(day)
             }
         }
         return list
-    }
-    fun convertAmPmTo24Hour(time: String): String {
-        val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        val date = sdf.parse(time)
-        val cal = Calendar.getInstance()
-        date?.let { cal.time = it }
-        val hour24 = SimpleDateFormat("HH:mm", Locale.getDefault())
-        return hour24.format(cal.time)
     }
 }
