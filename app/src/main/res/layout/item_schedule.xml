@@ -46,7 +46,7 @@
                 android:layout_height="30dp"
                 android:id="@+id/btn_reminder"
                 android:src="@drawable/ic_reminder"
-                app:tint="#FF0000" />
+                app:tint="#80000000" />
         </LinearLayout>
 
         <TextView

@@ -3,19 +3,34 @@ package com.diary.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.diary.Common.gone
+import com.diary.Common.visible
 import com.diary.R
+import com.diary.adapter.ScheduleAdapter
+import com.diary.database.Schedule
+import com.diary.database.ScheduleDatabase
 import com.diary.databinding.FragmentScheduleBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class ScheduleFragment : Fragment() {
 
     private val binding by lazy { FragmentScheduleBinding.inflate(layoutInflater) }
+    private var adapter: ScheduleAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        adapter = ScheduleAdapter(requireContext(), mutableListOf())
+
+        binding.rcvSchedule.adapter = adapter
 
         val dayOfWeek: Int = Calendar.getInstance().get(Calendar.DAY_OF_WEEK)
         val day = when (dayOfWeek) {
@@ -30,6 +45,7 @@ class ScheduleFragment : Fragment() {
         }
 
         selectDayOfWeek(day)
+
 
 
         binding.btnMon.setOnClickListener {
@@ -64,6 +80,7 @@ class ScheduleFragment : Fragment() {
 
     private fun selectDayOfWeek(pos: Int) {
         TransitionManager.beginDelayedTransition(binding.root)
+        getListSchedule(pos)
         when (pos) {
             1 -> {
                 binding.btnMon.setTextColor(Color.parseColor("#383655"))
@@ -182,6 +199,25 @@ class ScheduleFragment : Fragment() {
                 binding.btnSat.setBackgroundResource(R.drawable.bg_day_of_week_unselect)
                 binding.btnSun.setTextColor(Color.parseColor("#383655"))
                 binding.btnSun.setBackgroundResource(R.drawable.bg_day_of_week_select)
+            }
+        }
+    }
+
+    private fun getListSchedule(pos: Int) {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val database = ScheduleDatabase.getInstance(requireContext())
+                val dao = database.scheduleDao()
+                val listSchedule = dao.getSchedulesByDayOfWeek(pos)
+                Log.d("TAG123", "getListSchedule: " + listSchedule)
+                if (listSchedule.size == 0) {
+                    binding.rcvSchedule.gone()
+                    binding.imgListEmpty.visible()
+                } else {
+                    binding.rcvSchedule.visible()
+                    binding.imgListEmpty.gone()
+                    adapter?.changeList(listSchedule.toMutableList())
+                }
             }
         }
     }

@@ -81,4 +81,6 @@
 
     <string name="error_pass">Error Passcode\n</string>
     <string name="schedule">Schedule</string>
+    <string name="create_schedule">Create Schedule</string>
+    <string name="content">Content</string>
 </resources>

@@ -61,4 +61,6 @@ dependencies {
     implementation ("com.github.poovamraj:PinEditTextField:1.2.6")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+
+    implementation ("io.github.ShawnLin013:number-picker:2.4.13")
 }
