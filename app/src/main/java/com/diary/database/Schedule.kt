@@ -6,10 +6,12 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "schedule")
 data class Schedule(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val dayOfWeek: Int,
-    val isReminder: Boolean,
-    val time: String,
-    val title: String,
-    val content: String
-)
+    var id: Int = 0,
+    var dayOfWeek: Int,
+    var isReminder: Boolean,
+    var time: String,
+    var title: String,
+    var content: String
+) {
+    constructor() : this(0, 0, false, "", "", "")
+}

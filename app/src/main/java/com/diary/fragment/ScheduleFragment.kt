@@ -1,6 +1,8 @@
 package com.diary.fragment
 
+import android.app.Dialog
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.util.Log
@@ -9,12 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.diary.Common.convertCalendarToString
 import com.diary.Common.gone
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.adapter.ScheduleAdapter
+import com.diary.database.DiaryDatabase
+import com.diary.database.DiaryEntry
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
+import com.diary.databinding.DialogCreateScheduleBinding
+import com.diary.databinding.DialogDeleteImageBinding
 import com.diary.databinding.FragmentScheduleBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,6 +32,7 @@ class ScheduleFragment : Fragment() {
 
     private val binding by lazy { FragmentScheduleBinding.inflate(layoutInflater) }
     private var adapter: ScheduleAdapter? = null
+    private var currentDay = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,6 +77,42 @@ class ScheduleFragment : Fragment() {
         binding.btnSun.setOnClickListener {
             selectDayOfWeek(7)
         }
+
+        binding.imgListEmpty.setOnClickListener {
+            showAddDialog()
+        }
+    }
+
+    private fun showAddDialog() {
+        val bindingDialog = DialogCreateScheduleBinding.inflate(layoutInflater)
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(bindingDialog.root)
+        val window = dialog.window
+        window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+        bindingDialog.btnYes.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val database = ScheduleDatabase.getInstance(requireContext())
+                    val dao = database.scheduleDao()
+                    val schedule = Schedule()
+                    schedule.title = bindingDialog.edtTitle.text.toString()
+                    schedule.content = bindingDialog.edtContent.text.toString()
+                    schedule.time = bindingDialog.nbHour.value.toString()+":"+bindingDialog.nbMinute.value.toString()+"AM"
+                    schedule.isReminder = bindingDialog.swReminder.isChecked
+                    schedule.dayOfWeek = currentDay
+                    dao.insertSchedule(schedule)
+                    dialog.dismiss()
+                }
+            }
+        }
+        bindingDialog.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     override fun onCreateView(
@@ -79,7 +123,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun selectDayOfWeek(pos: Int) {
-        TransitionManager.beginDelayedTransition(binding.root)
+        currentDay = pos
         getListSchedule(pos)
         when (pos) {
             1 -> {
@@ -204,13 +248,15 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun getListSchedule(pos: Int) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 val database = ScheduleDatabase.getInstance(requireContext())
                 val dao = database.scheduleDao()
                 val listSchedule = dao.getSchedulesByDayOfWeek(pos)
                 Log.d("TAG123", "getListSchedule: " + listSchedule)
-                if (listSchedule.size == 0) {
+                listSchedule
+            }.let { listSchedule ->
+                if (listSchedule.isEmpty()) {
                     binding.rcvSchedule.gone()
                     binding.imgListEmpty.visible()
                 } else {
@@ -220,5 +266,6 @@ class ScheduleFragment : Fragment() {
                 }
             }
         }
+
     }
 }
