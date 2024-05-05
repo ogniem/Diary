@@ -63,4 +63,5 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     implementation ("io.github.ShawnLin013:number-picker:2.4.13")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

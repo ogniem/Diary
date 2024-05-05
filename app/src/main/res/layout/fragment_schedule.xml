@@ -136,7 +136,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         tools:listitem="@layout/item_schedule"
-        android:layout_marginHorizontal="16dp"
         />
     <ImageView
         android:layout_width="wrap_content"

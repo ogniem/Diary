@@ -4,24 +4,19 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.diary.Common.convertCalendarToString
 import com.diary.Common.gone
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.adapter.ScheduleAdapter
-import com.diary.database.DiaryDatabase
-import com.diary.database.DiaryEntry
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
 import com.diary.databinding.DialogCreateScheduleBinding
-import com.diary.databinding.DialogDeleteImageBinding
 import com.diary.databinding.FragmentScheduleBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +27,7 @@ class ScheduleFragment : Fragment() {
 
     private val binding by lazy { FragmentScheduleBinding.inflate(layoutInflater) }
     private var adapter: ScheduleAdapter? = null
-    private var currentDay = 1
+    var currentDay = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -102,7 +97,7 @@ class ScheduleFragment : Fragment() {
                     val schedule = Schedule()
                     schedule.title = bindingDialog.edtTitle.text.toString()
                     schedule.content = bindingDialog.edtContent.text.toString()
-                    schedule.time = bindingDialog.nbHour.value.toString()+":"+bindingDialog.nbMinute.value.toString()+"AM"
+                    schedule.time = bindingDialog.nbHour.value.toString()+":"+bindingDialog.nbMinute.value.toString()+" AM"
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = currentDay
                     dao.insertSchedule(schedule)
@@ -124,7 +119,7 @@ class ScheduleFragment : Fragment() {
 
     private fun selectDayOfWeek(pos: Int) {
         currentDay = pos
-        getListSchedule(pos)
+        loadListSchedule()
         when (pos) {
             1 -> {
                 binding.btnMon.setTextColor(Color.parseColor("#383655"))
@@ -247,12 +242,12 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-    private fun getListSchedule(pos: Int) {
+    fun loadListSchedule() {
         lifecycleScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) {
                 val database = ScheduleDatabase.getInstance(requireContext())
                 val dao = database.scheduleDao()
-                val listSchedule = dao.getSchedulesByDayOfWeek(pos)
+                val listSchedule = dao.getSchedulesByDayOfWeek(currentDay)
                 Log.d("TAG123", "getListSchedule: " + listSchedule)
                 listSchedule
             }.let { listSchedule ->

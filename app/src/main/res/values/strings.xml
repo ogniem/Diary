@@ -84,4 +84,8 @@
     <string name="create_schedule">Create Schedule</string>
     <string name="content">Content</string>
     <string name="reminder">Reminder</string>
+    <string name="nocontent">No content</string>
+    <string name="status">Status</string>
+    <string name="mood_flow">Mood Flow</string>
+    <string name="mood_trends">Mood Trends</string>
 </resources>
