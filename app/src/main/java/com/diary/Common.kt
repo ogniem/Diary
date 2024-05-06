@@ -93,6 +93,17 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("USER_NAME", "") ?: ""
     }
+    fun Context.setEnableReminder(enable: Boolean) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("ENABLE_REMINDER", enable)
+        editor.apply()
+    }
+
+    fun Context.isEnableReminder(): Boolean {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getBoolean("ENABLE_REMINDER", true)
+    }
     fun convertTimeToString(hour: String, minute: String, isAM: Boolean): String {
         val period = if (isAM) "AM" else "PM"
         return String.format("%s:%s %s", hour, minute, period)
@@ -132,7 +143,8 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("PASS_CODE", "") ?: ""
     }
-    fun Context.setSercurityQues(pos:Int) {
+
+    fun Context.setSercurityQues(pos: Int) {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("SERCURITY_QUES", pos)
@@ -141,9 +153,10 @@ object Common {
 
     fun Context.getSercurityAns(): String {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
-        return sharedPreferences.getString("SERCURITY_ANS", "")?:""
+        return sharedPreferences.getString("SERCURITY_ANS", "") ?: ""
     }
-    fun Context.setSercurityAns(ans:String) {
+
+    fun Context.setSercurityAns(ans: String) {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("SERCURITY_ANS", ans)
@@ -153,6 +166,30 @@ object Common {
     fun Context.getSercurityQues(): Int {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getInt("SERCURITY_QUES", 0)
+    }
+
+
+    fun Context.setThemeHome(theme: Int) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("THEME", theme)
+        editor.apply()
+    }
+
+    fun Context.getThemeHome(): Int {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getInt("THEME", 1)
+    }
+    fun Context.setRepeat(repeat: Int) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("REPEAT", repeat)
+        editor.apply()
+    }
+
+    fun Context.getRepeat(): Int {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getInt("REPEAT", 2)
     }
     fun Calendar.convertCalendarToString(): String {
         return simpleDateFormat.format(this.time)
@@ -188,4 +225,6 @@ object Common {
         }
         return list
     }
+
+
 }

@@ -13,7 +13,7 @@
         android:id="@+id/img_bg_title"
         app:layout_constraintTop_toTopOf="parent"
         android:adjustViewBounds="true"
-        android:src="@drawable/img_diary_1"/>
+        android:src="@drawable/im_home_1"/>
 
     <TextView
         android:layout_width="match_parent"

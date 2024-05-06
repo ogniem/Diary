@@ -32,7 +32,11 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        selectFragment(1)
+        if (intent.getBooleanExtra("IS_SETTING", false)) {
+            selectFragment(4)
+        } else {
+            selectFragment(1)
+        }
 
         binding.btnDiary.setOnClickListener {
             selectFragment(1)

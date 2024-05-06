@@ -21,25 +21,31 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".activity.CreateDiaryActivity"
-            android:screenOrientation="portrait"
+            android:name=".activity.DailyReminderSettingActivity"
             android:exported="false" />
+        <activity
+            android:name=".activity.ChooseThemeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CreateDiaryActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditDiaryActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AddDiaryActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SecurityQuestionActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SetPassCodeActivity"
             android:exported="false"
@@ -67,12 +73,11 @@
             </intent-filter>
         </activity>
         <activity
-
             android:name=".activity.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <receiver android:name=".AlarmReceiver"/>
 
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>

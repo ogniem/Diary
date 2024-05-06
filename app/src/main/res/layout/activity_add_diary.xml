@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/bg_top"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/bg_add_diary"
+        android:src="@drawable/img_add_1"
         android:adjustViewBounds="true"/>
 
     <RelativeLayout
@@ -58,6 +58,9 @@
         android:gravity="center"
         android:fontFamily="@font/nunito_bold"
         android:textColor="#383655"/>
+
+
+
 
     <ImageView
         android:layout_width="200dp"

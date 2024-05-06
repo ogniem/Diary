@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common
+import com.diary.Common.getThemeHome
 import com.diary.Common.getUserName
 import com.diary.R
 import com.diary.adapter.DiaryAdapter
@@ -25,7 +26,7 @@ class DiaryFragment : Fragment() {
 
         if (!requireContext().getUserName().isBlank()) {
             binding.tvHello.text = getString(R.string.hello) + " " + requireContext().getUserName()
-        }else{
+        } else {
             binding.tvHello.text = getString(R.string.hello_noname)
         }
 
@@ -51,6 +52,16 @@ class DiaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when (requireContext().getThemeHome()) {
+            1 -> binding.imgBgTitle.setImageResource(R.drawable.im_home_1)
+            2 -> binding.imgBgTitle.setImageResource(R.drawable.im_home_2)
+            3 -> binding.imgBgTitle.setImageResource(R.drawable.im_home_3)
+            4 -> binding.imgBgTitle.setImageResource(R.drawable.im_home_4)
+        }
     }
 
 }

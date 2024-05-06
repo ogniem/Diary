@@ -11,6 +11,7 @@ import android.widget.CalendarView.OnDateChangeListener
 import android.widget.PopupWindow
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import com.diary.Common.getThemeHome
 import com.diary.R
 import com.diary.databinding.ActivityAddDiaryBinding
 import com.diary.databinding.DialogCalendarBinding
@@ -123,5 +124,15 @@ class AddDiaryActivity : BaseActivity() {
             finish()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when(getThemeHome()){
+            1-> binding.bgTop.setImageResource(R.drawable.img_add_1)
+            2-> binding.bgTop.setImageResource(R.drawable.img_add_2)
+            3-> binding.bgTop.setImageResource(R.drawable.img_add_3)
+            4-> binding.bgTop.setImageResource(R.drawable.img_add_4)
+        }
     }
 }

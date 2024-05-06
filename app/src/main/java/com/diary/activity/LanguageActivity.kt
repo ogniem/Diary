@@ -17,13 +17,17 @@ class LanguageActivity : BaseActivity() {
         binding.rcvLang.adapter = adapter
         binding.btnDone.setOnClickListener {
             Common.saveLanguage(this, adapter.getSelected())
-            if(isFirstOpenApp()){
-                startActivity(Intent(this, NameActivity::class.java))
-            }else{
-                startActivity(Intent(this, MainActivity::class.java))
+            if (intent.getBooleanExtra("FROM_SETTING", false)) {
+                finishAffinity()
+                startActivity(Intent(this, MainActivity::class.java).putExtra("IS_SETTING", true))
+            } else {
+                if (isFirstOpenApp()) {
+                    startActivity(Intent(this, NameActivity::class.java))
+                } else {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+                finish()
             }
-            finish()
-
         }
     }
 

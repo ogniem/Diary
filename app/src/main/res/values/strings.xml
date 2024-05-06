@@ -88,4 +88,19 @@
     <string name="status">Status</string>
     <string name="mood_flow">Mood Flow</string>
     <string name="mood_trends">Mood Trends</string>
+    <string name="setting">Setting</string>
+    <string name="personal">Personal</string>
+    <string name="theme">Theme</string>
+    <string name="password_pin">Password (PIN)</string>
+    <string name="other">Others</string>
+    <string name="choose_your_diary_theme">Choose Your Diary Theme</string>
+    <string name="noname">No name</string>
+    <string name="enable_reminder">Enable reminder</string>
+    <string name="set_time">Set time</string>
+    <string name="repeat_reminder">Repeat reminder</string>
+    <string name="do_not_repeat">Do not repeat</string>
+    <string name="every_day">Everyday</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="yearly">Yearly</string>
 </resources>
