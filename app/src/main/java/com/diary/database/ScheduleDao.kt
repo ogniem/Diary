@@ -1,5 +1,6 @@
 package com.diary.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -12,10 +13,10 @@ interface ScheduleDao {
     fun insertSchedule(schedule: Schedule)
 
     @Query("SELECT * FROM schedule")
-    fun getAllSchedules(): List<Schedule>
+    fun getAllSchedules(): LiveData<List<Schedule>>
 
     @Query("SELECT * FROM schedule WHERE dayOfWeek = :dayOfWeek")
-    fun getSchedulesByDayOfWeek(dayOfWeek: Int): List<Schedule>
+    fun getSchedulesByDayOfWeek(dayOfWeek: Int): LiveData<List<Schedule>>
 
     @Update
     fun updateSchedule(schedule: Schedule)

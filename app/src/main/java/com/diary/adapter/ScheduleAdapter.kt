@@ -6,17 +6,26 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common.gone
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.database.Schedule
+import com.diary.database.ScheduleViewModel
 import com.diary.databinding.ItemScheduleBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ScheduleAdapter(
     private val context: Context,
     private var schedules: MutableList<Schedule>,
+    private val viewModel : ScheduleViewModel,
+    private val lifecycleScope: LifecycleCoroutineScope
 ) :
     RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,6 +35,7 @@ class ScheduleAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
+        holder.onClick(position)
     }
 
     override fun getItemCount(): Int {
@@ -60,12 +70,24 @@ class ScheduleAdapter(
                 binding.viewSpace.gone()
             }
         }
+        fun onClick(pos: Int){
+            binding.btnReminder.setOnClickListener {
+
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val schedule = schedules[pos]
+                        schedule.isReminder = !schedule.isReminder
+                        viewModel.updateSchedule(schedule)
+                    }
+                }
+
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun changeList(listschedule: MutableList<Schedule>) {
-        schedules.clear()
-        schedules.addAll(listschedule)
+        schedules = listschedule
         notifyDataSetChanged()
     }
 }

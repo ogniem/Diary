@@ -4,11 +4,12 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common.gone
 import com.diary.Common.visible
@@ -16,6 +17,8 @@ import com.diary.R
 import com.diary.adapter.ScheduleAdapter
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
+import com.diary.database.ScheduleRepository
+import com.diary.database.ScheduleViewModel
 import com.diary.databinding.DialogCreateScheduleBinding
 import com.diary.databinding.FragmentScheduleBinding
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +27,8 @@ import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class ScheduleFragment : Fragment() {
+    private lateinit var viewModel: ScheduleViewModel
+    private val listSchedule = mutableListOf<Schedule>()
 
     private val binding by lazy { FragmentScheduleBinding.inflate(layoutInflater) }
     private var adapter: ScheduleAdapter? = null
@@ -31,7 +36,29 @@ class ScheduleFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = ScheduleAdapter(requireContext(), mutableListOf())
+        val scheduleDao = ScheduleDatabase.getInstance(requireContext()).scheduleDao()
+        val scheduleRepository = ScheduleRepository(scheduleDao)
+        viewModel = ScheduleViewModel(scheduleRepository)
+        viewModel.getAllSchedules().observe(this) {
+            listSchedule.clear()
+            listSchedule.addAll(it)
+            val list = mutableListOf<Schedule>()
+            for (schedule in it) {
+                if (schedule.dayOfWeek == currentDay) {
+                    list.add(schedule)
+                }
+            }
+            if (list.isEmpty()) {
+                binding.rcvSchedule.gone()
+                binding.imgListEmpty.visible()
+            } else {
+                binding.rcvSchedule.visible()
+                binding.imgListEmpty.gone()
+                adapter?.changeList(list)
+            }
+        }
+
+        adapter = ScheduleAdapter(requireContext(), mutableListOf(), viewModel, lifecycleScope)
 
         binding.rcvSchedule.adapter = adapter
 
@@ -97,7 +124,8 @@ class ScheduleFragment : Fragment() {
                     val schedule = Schedule()
                     schedule.title = bindingDialog.edtTitle.text.toString()
                     schedule.content = bindingDialog.edtContent.text.toString()
-                    schedule.time = bindingDialog.nbHour.value.toString()+":"+bindingDialog.nbMinute.value.toString()+" AM"
+                    schedule.time =
+                        bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " AM"
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = currentDay
                     dao.insertSchedule(schedule)
@@ -119,7 +147,21 @@ class ScheduleFragment : Fragment() {
 
     private fun selectDayOfWeek(pos: Int) {
         currentDay = pos
-        loadListSchedule()
+
+        val list = mutableListOf<Schedule>()
+        for (schedule in listSchedule) {
+            if (schedule.dayOfWeek == currentDay) {
+                list.add(schedule)
+            }
+        }
+        if (list.isEmpty()) {
+            binding.rcvSchedule.gone()
+            binding.imgListEmpty.visible()
+        } else {
+            binding.rcvSchedule.visible()
+            binding.imgListEmpty.gone()
+            adapter?.changeList(list)
+        }
         when (pos) {
             1 -> {
                 binding.btnMon.setTextColor(Color.parseColor("#383655"))
@@ -242,25 +284,25 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-    fun loadListSchedule() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                val database = ScheduleDatabase.getInstance(requireContext())
-                val dao = database.scheduleDao()
-                val listSchedule = dao.getSchedulesByDayOfWeek(currentDay)
-                Log.d("TAG123", "getListSchedule: " + listSchedule)
-                listSchedule
-            }.let { listSchedule ->
-                if (listSchedule.isEmpty()) {
-                    binding.rcvSchedule.gone()
-                    binding.imgListEmpty.visible()
-                } else {
-                    binding.rcvSchedule.visible()
-                    binding.imgListEmpty.gone()
-                    adapter?.changeList(listSchedule.toMutableList())
-                }
-            }
-        }
-
-    }
+//    fun loadListSchedule() {
+//        lifecycleScope.launch(Dispatchers.Main) {
+//            withContext(Dispatchers.IO) {
+//                val database = ScheduleDatabase.getInstance(requireContext())
+//                val dao = database.scheduleDao()
+//                val listSchedule = dao.getSchedulesByDayOfWeek(currentDay)
+//                Log.d("TAG123", "getListSchedule: " + listSchedule)
+//                listSchedule
+//            }.let { listSchedule ->
+//                if (listSchedule.isEmpty()) {
+//                    binding.rcvSchedule.gone()
+//                    binding.imgListEmpty.visible()
+//                } else {
+//                    binding.rcvSchedule.visible()
+//                    binding.imgListEmpty.gone()
+//                    adapter?.changeList(listSchedule.toMutableList())
+//                }
+//            }
+//        }
+//
+//    }
 }

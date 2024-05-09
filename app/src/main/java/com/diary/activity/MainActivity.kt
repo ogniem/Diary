@@ -13,6 +13,8 @@ import com.diary.Common.invisible
 import com.diary.Common.visible
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
+import com.diary.database.ScheduleRepository
+import com.diary.database.ScheduleViewModel
 import com.diary.databinding.ActivityMainBinding
 import com.diary.databinding.DialogCreateScheduleBinding
 import com.diary.fragment.ScheduleFragment
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val scheduleFragment = ScheduleFragment()
     private var fragSelect = 1
+    private lateinit var viewModel: ScheduleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -50,7 +53,9 @@ class MainActivity : BaseActivity() {
         binding.btnSetting.setOnClickListener {
             selectFragment(4)
         }
-
+        val scheduleDao = ScheduleDatabase.getInstance(this).scheduleDao()
+        val scheduleRepository = ScheduleRepository(scheduleDao)
+        viewModel = ScheduleViewModel(scheduleRepository)
         binding.btnAdd.setOnClickListener {
             if (fragSelect == 2) {
                 showAddDialog()
@@ -135,8 +140,6 @@ class MainActivity : BaseActivity() {
         bindingDialog.btnYes.setOnClickListener {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val database = ScheduleDatabase.getInstance(this@MainActivity)
-                    val dao = database.scheduleDao()
                     val schedule = Schedule()
                     schedule.title = bindingDialog.edtTitle.text.toString()
                     schedule.content = bindingDialog.edtContent.text.toString()
@@ -144,9 +147,8 @@ class MainActivity : BaseActivity() {
                         bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " AM"
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = scheduleFragment.currentDay
-                    dao.insertSchedule(schedule)
+                    viewModel.insertSchedule(schedule)
                     dialog.dismiss()
-                    scheduleFragment.loadListSchedule()
                 }
             }
         }
