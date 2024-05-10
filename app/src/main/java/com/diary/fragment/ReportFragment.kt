@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.transition.TransitionManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +16,8 @@ import com.diary.Common.getMonth
 import com.diary.CustomFillFormatter
 import com.diary.R
 import com.diary.database.DiaryDatabase
+import com.diary.database.DiaryRepository
+import com.diary.database.DiaryViewModel
 import com.diary.databinding.FragmentReportBinding
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -31,71 +31,32 @@ import kotlinx.coroutines.withContext
 class ReportFragment : Fragment() {
 
     private val binding by lazy { FragmentReportBinding.inflate(layoutInflater) }
+    private lateinit var diaryViewModel: DiaryViewModel
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.lineChart.description.text = ""
+        val diaryEntryDao = DiaryDatabase.getInstance(requireContext()).diaryEntryDao()
+        val diaryRepository = DiaryRepository(diaryEntryDao)
+        diaryViewModel = DiaryViewModel(diaryRepository)
 
-        binding.lineChart.axisLeft.setDrawLabels(false)
-        binding.lineChart.axisLeft.setDrawGridLines(false)
-        binding.lineChart.axisRight.setDrawLabels(false)
-        binding.lineChart.axisRight.setDrawGridLines(false)
-
-        binding.lineChart.xAxis.granularity = 1f
-        binding.lineChart.axisLeft.granularity = 1f
-
-        binding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        binding.lineChart.xAxis.setDrawAxisLine(false)
-        binding.lineChart.xAxis.gridColor = Color.parseColor("#A3A3A3")
-        binding.lineChart.xAxis.gridLineWidth = 1f
-        binding.lineChart.xAxis.typeface =
-            ResourcesCompat.getFont(requireContext(), R.font.nunito_semibold)
-        binding.lineChart.xAxis.textColor = Color.parseColor("#383655")
-        binding.lineChart.xAxis.textSize = 12f
-
-        val minValue = -0.5f // Giá trị tối thiểu
-        val maxValue = 6.5f // Giá trị tối đa
-
-        binding.lineChart.axisLeft.axisMinimum = minValue
-        binding.lineChart.axisLeft.axisMaximum = maxValue
-        binding.lineChart.isScaleYEnabled = false
-        binding.lineChart.invalidate()
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return binding.root
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun loadData() {
-        TransitionManager.beginDelayedTransition(binding.root)
-        val entries = ArrayList<Entry>()
-        val listTime = ArrayList<String>()
-        var count_emo_1 = 0
-        var count_emo_2 = 0
-        var count_emo_3 = 0
-        var count_emo_4 = 0
-        var count_emo_5 = 0
-        var count_emo_6 = 0
-        var count_emo_7 = 0
-        lifecycleScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                val database = DiaryDatabase.getInstance(requireContext())
-                val dao = database?.diaryEntryDao()
-                val listDiary = dao?.allDiaryEntries
-
-                listDiary
-            }
-            withContext(Dispatchers.Main) {
-                result?.let{listDiary->
+        diaryViewModel.getAllDiary().observe(this) { listDiary ->
+            val entries = ArrayList<Entry>()
+            val listTime = ArrayList<String>()
+            var count_emo_1 = 0
+            var count_emo_2 = 0
+            var count_emo_3 = 0
+            var count_emo_4 = 0
+            var count_emo_5 = 0
+            var count_emo_6 = 0
+            var count_emo_7 = 0
+            lifecycleScope.launch {
+                withContext(Dispatchers.Main) {
                     if (!listDiary.isNullOrEmpty()) {
                         val list = listDiary.reversed()
                         for ((index, diary) in list.withIndex()) {
-                            entries.add(Entry(index.toFloat(), diary!!.emotion.toFloat()))
+                            entries.add(Entry(index.toFloat(), diary.emotion.toFloat()))
                             val time = diary.timeCreate.convertStringToCalendar()
                             listTime.add(time.getDay().toString() + "/" + time.getMonth())
 
@@ -145,19 +106,49 @@ class ReportFragment : Fragment() {
                     dataSet.fillAlpha = 100 // Độ đậm của màu fill
                     dataSet.setDrawFilled(true) // Kích hoạt chức năng fill
                     dataSet.fillFormatter = CustomFillFormatter()
-
-                    // Thiết lập nhãn cho trục x
                     binding.lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(listTime)
                     val lineData = LineData(dataSet)
                     binding.lineChart.data = lineData
                     binding.lineChart.invalidate()
                 }
+
             }
         }
+
+        binding.lineChart.description.text = ""
+
+        binding.lineChart.axisLeft.setDrawLabels(false)
+        binding.lineChart.axisLeft.setDrawGridLines(false)
+        binding.lineChart.axisRight.setDrawLabels(false)
+        binding.lineChart.axisRight.setDrawGridLines(false)
+
+        binding.lineChart.xAxis.granularity = 1f
+        binding.lineChart.axisLeft.granularity = 1f
+
+        binding.lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        binding.lineChart.xAxis.setDrawAxisLine(false)
+        binding.lineChart.xAxis.gridColor = Color.parseColor("#A3A3A3")
+        binding.lineChart.xAxis.gridLineWidth = 1f
+        binding.lineChart.xAxis.typeface =
+            ResourcesCompat.getFont(requireContext(), R.font.nunito_semibold)
+        binding.lineChart.xAxis.textColor = Color.parseColor("#383655")
+        binding.lineChart.xAxis.textSize = 12f
+
+        val minValue = -0.5f // Giá trị tối thiểu
+        val maxValue = 6.5f // Giá trị tối đa
+
+        binding.lineChart.axisLeft.axisMinimum = minValue
+        binding.lineChart.axisLeft.axisMaximum = maxValue
+        binding.lineChart.isScaleYEnabled = false
+        binding.lineChart.invalidate()
+
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadData()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return binding.root
     }
+
 }

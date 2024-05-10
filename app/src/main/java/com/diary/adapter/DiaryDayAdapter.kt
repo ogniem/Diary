@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.diary.Common
 import com.diary.Common.convertStringToCalendar
 import com.diary.R
 import com.diary.activity.EditDiaryActivity
@@ -62,6 +63,7 @@ class DiaryDayAdapter(private val context: Context, private val diaryEntries: Li
 
         holder.layout.setOnClickListener {
             val intent = Intent(context, EditDiaryActivity::class.java)
+            intent.putExtra(Common.KEY_POSITION_DIARY, diaryEntry.id)
             context.startActivity(intent)
         }
     }

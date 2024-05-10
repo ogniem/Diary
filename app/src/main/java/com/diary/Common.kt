@@ -18,6 +18,8 @@ import java.util.Locale
 
 object Common {
 
+    val KEY_POSITION_DIARY = "KEY_POSITION_DIARY"
+
     @SuppressLint("SimpleDateFormat")
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     fun getListLanguages(): List<Language> {

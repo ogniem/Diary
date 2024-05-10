@@ -8,8 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common.gone
 import com.diary.Common.visible
@@ -27,7 +25,7 @@ import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class ScheduleFragment : Fragment() {
-    private lateinit var viewModel: ScheduleViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
     private val listSchedule = mutableListOf<Schedule>()
 
     private val binding by lazy { FragmentScheduleBinding.inflate(layoutInflater) }
@@ -38,8 +36,8 @@ class ScheduleFragment : Fragment() {
 
         val scheduleDao = ScheduleDatabase.getInstance(requireContext()).scheduleDao()
         val scheduleRepository = ScheduleRepository(scheduleDao)
-        viewModel = ScheduleViewModel(scheduleRepository)
-        viewModel.getAllSchedules().observe(this) {
+        scheduleViewModel = ScheduleViewModel(scheduleRepository)
+        scheduleViewModel.getAllSchedules().observe(this) {
             listSchedule.clear()
             listSchedule.addAll(it)
             val list = mutableListOf<Schedule>()
@@ -58,7 +56,7 @@ class ScheduleFragment : Fragment() {
             }
         }
 
-        adapter = ScheduleAdapter(requireContext(), mutableListOf(), viewModel, lifecycleScope)
+        adapter = ScheduleAdapter(requireContext(), mutableListOf(), scheduleViewModel, lifecycleScope)
 
         binding.rcvSchedule.adapter = adapter
 

@@ -1,7 +1,6 @@
 package com.diary.activity
 
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
-import android.util.Log
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -20,6 +18,8 @@ import com.diary.Common.visible
 import com.diary.R
 import com.diary.database.DiaryDatabase
 import com.diary.database.DiaryEntry
+import com.diary.database.DiaryRepository
+import com.diary.database.DiaryViewModel
 import com.diary.databinding.ActivityCreateDiaryBinding
 import com.diary.databinding.DialogChooseTypeImageBinding
 import com.diary.databinding.DialogDeleteImageBinding
@@ -31,14 +31,21 @@ import java.io.ByteArrayOutputStream
 import java.util.Calendar
 
 
+@Suppress("DEPRECATION")
 class CreateDiaryActivity : BaseActivity() {
     private val binding by lazy { ActivityCreateDiaryBinding.inflate(layoutInflater) }
-    var image1 = ""
-    var image2 = ""
-    var image3 = ""
+    private var image1 = ""
+    private var image2 = ""
+    private var image3 = ""
+    private lateinit var diaryViewModel: DiaryViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        val diaryEntryDao = DiaryDatabase.getInstance(this).diaryEntryDao()
+        val diaryRepository = DiaryRepository(diaryEntryDao)
+        diaryViewModel = DiaryViewModel(diaryRepository)
+
         var timeCreate = Calendar.getInstance()
         if (intent.extras != null) {
             timeCreate = intent.extras?.getSerializable("TIME_CREATE") as Calendar
@@ -114,9 +121,6 @@ class CreateDiaryActivity : BaseActivity() {
 
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val database = DiaryDatabase.getInstance(this@CreateDiaryActivity)
-                    val dao = database!!.diaryEntryDao()
-
                     val diaryEntry = DiaryEntry()
                     diaryEntry.timeCreate = timeCreate.convertCalendarToString()
                     diaryEntry.emotion = emotion
@@ -125,8 +129,7 @@ class CreateDiaryActivity : BaseActivity() {
                     diaryEntry.imageLink2 = image2
                     diaryEntry.imageLink3 = image3
                     diaryEntry.content = binding.edtContent.text.toString()
-                    dao!!.insertDiaryEntry(diaryEntry)
-                    Log.d("TAG123", "onCreate: " + dao.allDiaryEntries?.size)
+                    diaryViewModel.insertDiary(diaryEntry)
                 }
             }
             startActivity(Intent(this, MainActivity::class.java))
@@ -137,7 +140,7 @@ class CreateDiaryActivity : BaseActivity() {
     private fun chooseImage() {
         val intent = Intent(
             Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            Images.Media.EXTERNAL_CONTENT_URI
         )
         startActivityForResult(intent, 1)
 
@@ -233,7 +236,7 @@ class CreateDiaryActivity : BaseActivity() {
         }
     }
 
-    fun getImageUri(inImage: Bitmap): Uri {
+    private fun getImageUri(inImage: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         inImage.compress(
             Bitmap.CompressFormat.JPEG,
@@ -263,6 +266,7 @@ class CreateDiaryActivity : BaseActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {

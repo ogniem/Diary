@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common.invisible
 import com.diary.Common.visible
+import com.diary.database.DiaryViewModel
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
 import com.diary.database.ScheduleRepository
@@ -30,7 +31,7 @@ class MainActivity : BaseActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val scheduleFragment = ScheduleFragment()
     private var fragSelect = 1
-    private lateinit var viewModel: ScheduleViewModel
+    private lateinit var scheduleViewModel: ScheduleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -53,9 +54,11 @@ class MainActivity : BaseActivity() {
         binding.btnSetting.setOnClickListener {
             selectFragment(4)
         }
+
         val scheduleDao = ScheduleDatabase.getInstance(this).scheduleDao()
         val scheduleRepository = ScheduleRepository(scheduleDao)
-        viewModel = ScheduleViewModel(scheduleRepository)
+        scheduleViewModel = ScheduleViewModel(scheduleRepository)
+
         binding.btnAdd.setOnClickListener {
             if (fragSelect == 2) {
                 showAddDialog()
@@ -147,7 +150,7 @@ class MainActivity : BaseActivity() {
                         bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " AM"
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = scheduleFragment.currentDay
-                    viewModel.insertSchedule(schedule)
+                    scheduleViewModel.insertSchedule(schedule)
                     dialog.dismiss()
                 }
             }
