@@ -103,4 +103,9 @@
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
     <string name="yearly">Yearly</string>
+    <string name="delete_schedule">Delete schedule?</string>
+    <string name="edit_schedule">Edit Schedule</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete_diary_content">Are you sure to delete this diary? This action will make it lost forever.</string>
+    <string name="delete_diary">Delete Diary</string>
 </resources>

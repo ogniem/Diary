@@ -20,4 +20,8 @@ class DiaryViewModel (private val diaryRepository: DiaryRepository) : ViewModel(
     fun deleteDiary(diaryEntry: DiaryEntry) {
         diaryRepository.deleteDiaryEntry(diaryEntry)
     }
+
+    fun getLiveDiary(id:Int):LiveData<DiaryEntry>?{
+        return diaryRepository.getLiveDiary(id)
+    }
 }

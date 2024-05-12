@@ -21,5 +21,8 @@ class DiaryRepository(private val diaryEntryDao: DiaryEntryDao) {
     fun deleteDiaryEntry(diaryEntry: DiaryEntry) {
         diaryEntryDao.deleteDiaryEntry(diaryEntry)
     }
+    fun getLiveDiary(id: Int): LiveData<DiaryEntry>? {
+        return diaryEntryDao.getLiveDiaryEntryById(id)
+    }
 
 }

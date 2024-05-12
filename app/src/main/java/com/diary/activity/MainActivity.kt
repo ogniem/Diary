@@ -2,6 +2,7 @@ package com.diary.activity
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common.invisible
 import com.diary.Common.visible
-import com.diary.database.DiaryViewModel
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
 import com.diary.database.ScheduleRepository
@@ -140,14 +140,48 @@ class MainActivity : BaseActivity() {
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
+
+        var isAM = true
+        bindingDialog.btnAm.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#766DE6"))
+        bindingDialog.btnPm.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+        bindingDialog.btnAm.setTextColor(Color.WHITE)
+        bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+
+
+        bindingDialog.btnAm.setOnClickListener {
+            isAM = true
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnAm.setTextColor(Color.WHITE)
+            bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+        }
+        bindingDialog.btnPm.setOnClickListener {
+            isAM = false
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnPm.setTextColor(Color.WHITE)
+            bindingDialog.btnAm.setTextColor(Color.parseColor("#383655"))
+        }
+
         bindingDialog.btnYes.setOnClickListener {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
+                    val a = if (isAM) {
+                        "AM"
+                    } else {
+                        "PM"
+                    }
+
                     val schedule = Schedule()
                     schedule.title = bindingDialog.edtTitle.text.toString()
                     schedule.content = bindingDialog.edtContent.text.toString()
                     schedule.time =
-                        bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " AM"
+                        bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " " + a
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = scheduleFragment.currentDay
                     scheduleViewModel.insertSchedule(schedule)

@@ -1,6 +1,7 @@
 package com.diary.fragment
 
 import android.app.Dialog
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -56,7 +57,8 @@ class ScheduleFragment : Fragment() {
             }
         }
 
-        adapter = ScheduleAdapter(requireContext(), mutableListOf(), scheduleViewModel, lifecycleScope)
+        adapter =
+            ScheduleAdapter(requireContext(), mutableListOf(), scheduleViewModel, lifecycleScope)
 
         binding.rcvSchedule.adapter = adapter
 
@@ -114,19 +116,51 @@ class ScheduleFragment : Fragment() {
         dialog.setCancelable(false)
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
+
+        var isAM = true
+        bindingDialog.btnAm.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#766DE6"))
+        bindingDialog.btnPm.backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+        bindingDialog.btnAm.setTextColor(Color.WHITE)
+        bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+
+
+        bindingDialog.btnAm.setOnClickListener {
+            isAM = true
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnAm.setTextColor(Color.WHITE)
+            bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+        }
+        bindingDialog.btnPm.setOnClickListener {
+            isAM = false
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnPm.setTextColor(Color.WHITE)
+            bindingDialog.btnAm.setTextColor(Color.parseColor("#383655"))
+        }
+
         bindingDialog.btnYes.setOnClickListener {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    val database = ScheduleDatabase.getInstance(requireContext())
-                    val dao = database.scheduleDao()
+                    val a = if (isAM) {
+                        "AM"
+                    } else {
+                        "PM"
+                    }
+
                     val schedule = Schedule()
                     schedule.title = bindingDialog.edtTitle.text.toString()
                     schedule.content = bindingDialog.edtContent.text.toString()
                     schedule.time =
-                        bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " AM"
+                        bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " " + a
                     schedule.isReminder = bindingDialog.swReminder.isChecked
                     schedule.dayOfWeek = currentDay
-                    dao.insertSchedule(schedule)
+                    scheduleViewModel.insertSchedule(schedule)
                     dialog.dismiss()
                 }
             }
@@ -282,25 +316,4 @@ class ScheduleFragment : Fragment() {
         }
     }
 
-//    fun loadListSchedule() {
-//        lifecycleScope.launch(Dispatchers.Main) {
-//            withContext(Dispatchers.IO) {
-//                val database = ScheduleDatabase.getInstance(requireContext())
-//                val dao = database.scheduleDao()
-//                val listSchedule = dao.getSchedulesByDayOfWeek(currentDay)
-//                Log.d("TAG123", "getListSchedule: " + listSchedule)
-//                listSchedule
-//            }.let { listSchedule ->
-//                if (listSchedule.isEmpty()) {
-//                    binding.rcvSchedule.gone()
-//                    binding.imgListEmpty.visible()
-//                } else {
-//                    binding.rcvSchedule.visible()
-//                    binding.imgListEmpty.gone()
-//                    adapter?.changeList(listSchedule.toMutableList())
-//                }
-//            }
-//        }
-//
-//    }
 }

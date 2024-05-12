@@ -26,4 +26,6 @@ interface DiaryEntryDao {
     @Query("SELECT * FROM diary_entries WHERE id = :id")
     fun getDiaryEntryById(id: Int): DiaryEntry
 
+    @Query("SELECT * FROM diary_entries WHERE id = :id")
+    fun getLiveDiaryEntryById(id: Int): LiveData<DiaryEntry>?
 }
