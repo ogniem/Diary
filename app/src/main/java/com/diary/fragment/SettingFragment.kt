@@ -15,7 +15,6 @@ import com.diary.R
 import com.diary.activity.ChooseThemeActivity
 import com.diary.activity.DailyReminderSettingActivity
 import com.diary.activity.LanguageActivity
-import com.diary.databinding.DialogCreateScheduleBinding
 import com.diary.databinding.DialogRenameBinding
 import com.diary.databinding.FragmentSettingBinding
 

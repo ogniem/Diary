@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common
 import com.diary.Common.convertStringToCalendar
+import com.diary.Common.getIconByEmotion
 import com.diary.R
 import com.diary.activity.EditDiaryActivity
 import com.diary.database.DiaryEntry
@@ -51,15 +52,7 @@ class DiaryDayAdapter(private val context: Context, private val diaryEntries: Li
 
         holder.tvTime.text = daysOfWeek.get(calendar.get(Calendar.DAY_OF_WEEK) - 1) + "  " + time
 
-        when (diaryEntry.emotion) {
-            0 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_1)
-            1 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_2)
-            2 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_3)
-            3 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_4)
-            4 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_5)
-            5 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_6)
-            6 -> holder.ivEmotion.setImageResource(R.drawable.ic_emotion_7)
-        }
+        holder.ivEmotion.setImageResource(getIconByEmotion(diaryEntry.emotion))
 
         holder.layout.setOnClickListener {
             val intent = Intent(context, EditDiaryActivity::class.java)

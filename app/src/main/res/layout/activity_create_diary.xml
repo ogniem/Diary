@@ -8,248 +8,269 @@
     android:background="#FAF5F0"
     tools:context=".activity.CreateDiaryActivity">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:adjustViewBounds="true"
-        android:layout_centerVertical="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_back" />
 
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/ic_edit"
         android:id="@+id/btn_edit"
-        />
-    <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_edit"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="30dp"
-        android:id="@+id/btn_delete"
-        android:src="@drawable/ic_delete"
-        />
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
+        android:id="@+id/img_emotion"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginTop="30dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/bg_img_emotion"
         android:padding="24dp"
         android:src="@drawable/ic_emotion_5"
-        android:id="@+id/img_emotion"
-        android:background="@drawable/bg_img_emotion"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back"
-        android:layout_marginTop="30dp"
-        android:adjustViewBounds="true"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
     <TextView
+        android:id="@+id/tv_emotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_emotion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_emotion"
-        android:text="@string/emotion_5"
-        android:fontFamily="@font/nunito_bold"
-        android:textSize="18sp"
         android:layout_marginTop="12dp"
-        android:textColor="#383655"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/emotion_5"
         android:textAllCaps="true"
-        />
+        android:textColor="#383655"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_emotion" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_emotion"
-        app:layout_constraintBottom_toTopOf="@+id/btn_create">
+        app:layout_constraintBottom_toTopOf="@+id/btn_create"
+        app:layout_constraintTop_toBottomOf="@+id/tv_emotion">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <EditText
+                android:id="@+id/edt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edt_title"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_radius_16_stroke"
-                android:padding="12dp"
+                android:fontFamily="@font/nunito_regular"
                 android:hint="@string/title"
-                android:textSize="16sp"
+                android:padding="12dp"
                 android:textColor="#383655"
                 android:textColorHint="#636372"
-                android:fontFamily="@font/nunito_regular"
-                />
+                android:textSize="16sp" />
+
             <LinearLayout
+                android:id="@+id/lv_list_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lv_list_img"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal"
                 android:background="@drawable/bg_radius_16_stroke"
-                android:padding="12dp"
-                android:gravity="center|bottom">
+                android:gravity="center|bottom"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
+                        android:id="@+id/btn_delete_1"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:id="@+id/btn_delete_1"
-                        android:layout_marginBottom="44dp"
                         android:layout_marginLeft="46dp"
+                        android:layout_marginBottom="44dp"
                         android:elevation="3dp"
-                        android:visibility="gone"
                         android:src="@drawable/ic_close"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         app:cardBackgroundColor="#FAF5F0"
+                        app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:cardCornerRadius="12dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
                         <ImageView
+                            android:id="@+id/img_1"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:id="@+id/img_1"
-                            android:src="@drawable/img_empty"
                             android:scaleType="centerCrop"
-                            />
+                            android:src="@drawable/img_empty" />
                     </androidx.cardview.widget.CardView>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp">
+
                     <ImageView
+                        android:id="@+id/btn_delete_2"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:id="@+id/btn_delete_2"
-                        android:layout_marginBottom="44dp"
                         android:layout_marginLeft="46dp"
+                        android:layout_marginBottom="44dp"
                         android:elevation="3dp"
-                        android:visibility="gone"
                         android:src="@drawable/ic_close"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         app:cardBackgroundColor="#FAF5F0"
+                        app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:cardCornerRadius="12dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
                         <ImageView
+                            android:id="@+id/img_2"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:id="@+id/img_2"
-                            android:src="@drawable/img_empty"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_empty" />
                     </androidx.cardview.widget.CardView>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
+                        android:id="@+id/btn_delete_3"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:id="@+id/btn_delete_3"
-                        android:layout_marginBottom="44dp"
                         android:layout_marginLeft="46dp"
+                        android:layout_marginBottom="44dp"
                         android:elevation="3dp"
-                        android:visibility="gone"
                         android:src="@drawable/ic_close"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         app:cardBackgroundColor="#FAF5F0"
+                        app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:cardCornerRadius="12dp">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
                         <ImageView
+                            android:id="@+id/img_3"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:id="@+id/img_3"
-                            android:src="@drawable/img_empty"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/img_empty" />
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
             <EditText
+                android:id="@+id/edt_content"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:id="@+id/edt_content"
-                app:layout_constraintTop_toBottomOf="@+id/lv_list_img"
-                app:layout_constraintBottom_toTopOf="@+id/btn_create"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginVertical="16dp"
                 android:background="@drawable/bg_radius_16_stroke"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="top"
+                android:hint="@string/what_s_one_your_mind"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="16dp"
-                android:hint="@string/what_s_one_your_mind"
-                android:textSize="16sp"
                 android:textColor="#383655"
                 android:textColorHint="#636372"
-                android:gravity="top"
-                android:fontFamily="@font/nunito_regular"
-                />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_create"
+                app:layout_constraintTop_toBottomOf="@+id/lv_list_img" />
 
         </LinearLayout>
     </ScrollView>
 
     <TextView
+        android:id="@+id/btn_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_create"
-        android:background="@drawable/bg_btn_border100"
         android:layout_marginHorizontal="16dp"
-        android:padding="16dp"
-        android:gravity="center"
         android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_btn_border100"
+        android:elevation="4dp"
+        android:fontFamily="@font/nunito_semibold"
+        android:gravity="center"
+        android:padding="16dp"
         android:text="@string/add_to_my_diary"
         android:textColor="#383655"
         android:textSize="16sp"
-        android:fontFamily="@font/nunito_semibold"
-        android:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
+    <ImageView
+        android:id="@+id/img_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/black"
+        android:elevation="5dp"
+        android:paddingVertical="100dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/img_empty" />
+
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:adjustViewBounds="true"
+        android:elevation="6dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:elevation="6dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintEnd_toStartOf="@+id/btn_edit"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

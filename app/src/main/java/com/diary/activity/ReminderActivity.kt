@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import com.diary.Common.convertStringToTime
-import com.diary.Common.convertTimeToString
+import com.diary.Common.convertStringToHour
+import com.diary.Common.convertHourToString
 import com.diary.Common.getDailyReminder
 import com.diary.Common.setDailyReminder
 import com.diary.InputFilterMinMax
@@ -24,7 +24,7 @@ class ReminderActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val timeTriple = convertStringToTime(getDailyReminder())
+        val timeTriple = convertStringToHour(getDailyReminder())
         timeTriple?.let { (hour, minute, isAM) ->
             this.isAM = isAM
             binding.edtHour.setText(hour)
@@ -85,7 +85,7 @@ class ReminderActivity : BaseActivity() {
         }
         binding.btnContinue.setOnClickListener {
             setDailyReminder(
-                convertTimeToString(
+                convertHourToString(
                     binding.edtHour.text.toString(),
                     binding.edtMinute.text.toString(),
                     isAM

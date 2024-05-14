@@ -9,10 +9,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
+import android.util.Log
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.diary.Common.convertCalendarToString
+import com.diary.Common.getIconByEmotion
+import com.diary.Common.getTextByEmotion
 import com.diary.Common.gone
 import com.diary.Common.visible
 import com.diary.R
@@ -28,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.Calendar
 
 
@@ -38,9 +44,21 @@ class CreateDiaryActivity : BaseActivity() {
     private var image2 = ""
     private var image3 = ""
     private lateinit var diaryViewModel: DiaryViewModel
+
+    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            insertImageToList(uri)
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            this.contentResolver.takePersistableUriPermission(uri, flag)
+        } else {
+            Log.d("PhotoPicker", "No media selected")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+
 
         val diaryEntryDao = DiaryDatabase.getInstance(this).diaryEntryDao()
         val diaryRepository = DiaryRepository(diaryEntryDao)
@@ -53,42 +71,8 @@ class CreateDiaryActivity : BaseActivity() {
 
         val emotion = intent.getIntExtra("EMOTION", 5)
 
-        when (emotion) {
-            0 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_1)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_1)
-            }
-
-            1 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_2)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_2)
-            }
-
-            2 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_3)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_3)
-            }
-
-            3 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_4)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_4)
-            }
-
-            4 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_5)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_5)
-            }
-
-            5 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_6)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_6)
-            }
-
-            6 -> {
-                binding.tvEmotion.text = getText(R.string.emotion_7)
-                binding.imgEmotion.setImageResource(R.drawable.ic_emotion_7)
-            }
-        }
+        binding.tvEmotion.text = getTextByEmotion(emotion)
+        binding.imgEmotion.setImageResource(getIconByEmotion(emotion))
 
         binding.img1.setOnClickListener {
             if (image1.isBlank()) {
@@ -138,12 +122,7 @@ class CreateDiaryActivity : BaseActivity() {
     }
 
     private fun chooseImage() {
-        val intent = Intent(
-            Intent.ACTION_PICK,
-            Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(intent, 1)
-
+        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
 
     private fun takePhoto() {
@@ -275,7 +254,11 @@ class CreateDiaryActivity : BaseActivity() {
         }
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
             val imageUri = data.extras?.get("data") as? Bitmap
-            insertImageToList(getImageUri(imageUri!!))
+            val a = getImageUri(imageUri!!)
+            insertImageToList(a)
+//            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//            contentResolver.takePersistableUriPermission(a, flag)
         }
     }
+
 }

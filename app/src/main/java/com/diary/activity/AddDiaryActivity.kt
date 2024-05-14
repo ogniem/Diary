@@ -5,12 +5,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.WindowManager
-import android.widget.CalendarView.OnDateChangeListener
 import android.widget.PopupWindow
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import com.diary.Common.getIconByEmotion
+import com.diary.Common.getTextByEmotion
 import com.diary.Common.getThemeHome
 import com.diary.R
 import com.diary.databinding.ActivityAddDiaryBinding
@@ -29,42 +29,8 @@ class AddDiaryActivity : BaseActivity() {
         binding.sbEmotion.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 TransitionManager.beginDelayedTransition(binding.main)
-                when (progress) {
-                    0 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_1)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_1)
-                    }
-
-                    1 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_2)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_2)
-                    }
-
-                    2 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_3)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_3)
-                    }
-
-                    3 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_4)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_4)
-                    }
-
-                    4 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_5)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_5)
-                    }
-
-                    5 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_6)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_6)
-                    }
-
-                    6 -> {
-                        binding.tvEmotion.text = getText(R.string.emotion_7)
-                        binding.imgEmotion.setImageResource(R.drawable.ic_emotion_7)
-                    }
-                }
+                binding.tvEmotion.text = getTextByEmotion(progress)
+                binding.imgEmotion.setImageResource(getIconByEmotion(progress))
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -92,11 +58,11 @@ class AddDiaryActivity : BaseActivity() {
 
             bindingDialog.calendar.date = timeCreate.timeInMillis
 
-            bindingDialog.calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
+            bindingDialog.calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
                 daySelect = dayOfMonth
                 monthSelect = month
                 yearSelect = year
-            })
+            }
 
             bindingDialog.btnCancelPopup.setOnClickListener {
                 popupWindow.dismiss()

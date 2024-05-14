@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.PopupWindow
-import androidx.appcompat.app.AppCompatActivity
 import com.diary.Common
 import com.diary.Common.getDailyReminder
 import com.diary.Common.getRepeat
@@ -22,7 +21,6 @@ import com.diary.Common.setRepeat
 import com.diary.InputFilterMinMax
 import com.diary.R
 import com.diary.databinding.ActivityDailyReminderSettingBinding
-import com.diary.databinding.DialogRenameBinding
 import com.diary.databinding.DialogSettimeBinding
 import com.diary.databinding.PopupRepeatBinding
 
@@ -60,7 +58,7 @@ class DailyReminderSettingActivity : BaseActivity() {
 
         var isAMSelect = true
 
-        val timeTriple = Common.convertStringToTime(getDailyReminder())
+        val timeTriple = Common.convertStringToHour(getDailyReminder())
         timeTriple?.let { (hour, minute, isAM) ->
             isAMSelect = isAM
             if (isAMSelect) {
@@ -160,7 +158,7 @@ class DailyReminderSettingActivity : BaseActivity() {
                 bindingDialog.edtHour.text.toString()
             }
             setDailyReminder(
-                Common.convertTimeToString(
+                Common.convertHourToString(
                     hour,
                     minute,
                     isAMSelect

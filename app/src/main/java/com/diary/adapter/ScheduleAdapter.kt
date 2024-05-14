@@ -9,12 +9,10 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common
-import com.diary.Common.getDailyReminder
 import com.diary.Common.gone
+import com.diary.Common.setReminder
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.database.Schedule
@@ -53,15 +51,11 @@ class ScheduleAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pos: Int) {
             val schedule = schedules[pos]
-            binding.tvTitle.text = if (schedule.title.isBlank()) {
+            binding.tvTitle.text = schedule.title.ifBlank {
                 context.getText(R.string.notitle)
-            } else {
-                schedule.title
             }
-            binding.tvContent.text = if (schedule.content.isBlank()) {
+            binding.tvContent.text = schedule.content.ifBlank {
                 context.getText(R.string.nocontent)
-            } else {
-                schedule.content
             }
             binding.tvTime.text = schedule.time
             if (schedule.isReminder) {
@@ -109,7 +103,7 @@ class ScheduleAdapter(
                 val schedule = schedules[pos]
                 var isAMM = true
 
-                val timeTriple = Common.convertStringToTime(schedule.time)
+                val timeTriple = Common.convertStringToHour(schedule.time)
                 timeTriple?.let { (hour, minute, isAM) ->
                     isAMM = isAM
                     bindingDialog.nbHour.value = hour.toInt()
@@ -170,7 +164,7 @@ class ScheduleAdapter(
                             schedule.title = bindingDialog.edtTitle.text.toString()
                             schedule.content = bindingDialog.edtContent.text.toString()
                             schedule.time =
-                                bindingDialog.nbHour.value.toString() + ":" + bindingDialog.nbMinute.value.toString() + " " + a
+                                (bindingDialog.nbHour.value - 1).toString() + ":" + bindingDialog.nbMinute.value.toString() + " " + a
                             schedule.isReminder = bindingDialog.swReminder.isChecked
                             viewModel.updateSchedule(schedule)
                             dialog.dismiss()

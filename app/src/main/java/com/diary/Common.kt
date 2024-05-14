@@ -3,14 +3,23 @@
 package com.diary
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.diary.database.DiaryEntry
+import com.diary.database.Schedule
 import com.diary.model.Day
 import com.diary.model.Language
+import com.diary.service.ReminderBroadCastReceiver
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -18,6 +27,8 @@ import java.util.Locale
 
 object Common {
 
+    val KEY_ALARM_DAY_OF_WEEK = "KEY_ALARM_DAY_OF_WEEK"
+    val KEY_ENABLE_REMINDER = "KEY_ENABLE_REMINDER"
     val KEY_POSITION_DIARY = "KEY_POSITION_DIARY"
 
     @SuppressLint("SimpleDateFormat")
@@ -55,7 +66,6 @@ object Common {
         val resources = Resources.getSystem()
         val configuration = resources.configuration
         val locale = Locale(getListLanguages()[getLanguage(context)].key)
-        Log.d("TAG123", "ngôn ngữ chọn: $locale")
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
@@ -95,6 +105,7 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getString("USER_NAME", "") ?: ""
     }
+
     fun Context.setEnableReminder(enable: Boolean) {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -106,12 +117,13 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getBoolean("ENABLE_REMINDER", true)
     }
-    fun convertTimeToString(hour: String, minute: String, isAM: Boolean): String {
+
+    fun convertHourToString(hour: String, minute: String, isAM: Boolean): String {
         val period = if (isAM) "AM" else "PM"
         return String.format("%s:%s %s", hour, minute, period)
     }
 
-    fun convertStringToTime(timeString: String): Triple<String, String, Boolean>? {
+    fun convertStringToHour(timeString: String): Triple<String, String, Boolean>? {
         val parts = timeString.split(":", " ")
         if (parts.size != 3) return null
 
@@ -182,6 +194,7 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getInt("THEME", 1)
     }
+
     fun Context.setRepeat(repeat: Int) {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -193,6 +206,7 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getInt("REPEAT", 2)
     }
+
     fun Calendar.convertCalendarToString(): String {
         return simpleDateFormat.format(this.time)
     }
@@ -226,6 +240,153 @@ object Common {
             }
         }
         return list
+    }
+
+    fun getIconByEmotion(emotion: Int): Int {
+        return when (emotion) {
+            0 -> {
+                R.drawable.ic_emotion_1
+            }
+
+            1 -> {
+                R.drawable.ic_emotion_2
+            }
+
+            2 -> {
+                R.drawable.ic_emotion_3
+            }
+
+            3 -> {
+                R.drawable.ic_emotion_4
+            }
+
+            4 -> {
+                R.drawable.ic_emotion_5
+            }
+
+            5 -> {
+                R.drawable.ic_emotion_6
+            }
+
+            6 -> {
+                R.drawable.ic_emotion_7
+            }
+
+            else -> {
+                R.drawable.ic_emotion_5
+            }
+        }
+    }
+
+    fun Context.getTextByEmotion(emotion: Int): String {
+        val textSource =  when (emotion) {
+            0 -> {
+                R.string.emotion_1
+            }
+
+            1 -> {
+                R.string.emotion_2
+            }
+
+            2 -> {
+                R.string.emotion_3
+            }
+
+            3 -> {
+                R.string.emotion_4
+            }
+
+            4 -> {
+                R.string.emotion_5
+            }
+
+            5 -> {
+                R.string.emotion_6
+            }
+
+            6 -> {
+                R.string.emotion_7
+            }
+
+            else -> {
+                R.string.emotion_5
+            }
+        }
+        return getString(textSource)
+    }
+
+    fun findItemById(items: List<DiaryEntry>, id: Int): DiaryEntry? {
+        return items.find { it.id == id }
+    }
+
+    fun Context.setReminder(schedule: Schedule) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (!schedule.isReminder) {
+            // Hủy báo thức hiện tại nếu có
+            val existingIntent = Intent(this, ReminderBroadCastReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                schedule.id,
+                existingIntent,
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+            )
+            pendingIntent?.let {
+                alarmManager.cancel(it)
+                it.cancel()
+            }
+        } else {
+            val calendar = Calendar.getInstance()
+            when (schedule.dayOfWeek) {
+                1 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                2 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY)
+                3 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY)
+                4 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY)
+                5 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY)
+                6 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+                7 -> calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            }
+
+            convertStringToHour(schedule.time)?.let { (hour, minute, isAM) ->
+                calendar.set(Calendar.HOUR_OF_DAY, hour.toInt() - 1)
+                calendar.set(Calendar.MINUTE, minute.toInt())
+                if (isAM) {
+                    calendar.set(Calendar.AM_PM, Calendar.AM)
+                } else {
+                    calendar.set(Calendar.AM_PM, Calendar.PM)
+                }
+            }
+            Log.d("TAG123", "setReminder: " + (calendar.timeInMillis - System.currentTimeMillis()))
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            if (calendar.timeInMillis <= System.currentTimeMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 7)
+            }
+
+            val intent = Intent(this, ReminderBroadCastReceiver::class.java).apply {
+                putExtra("alarmId", schedule.id)
+                putExtra("title", schedule.title)
+                putExtra("content", schedule.content)
+            }
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                schedule.id,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+//            val timeRepeat = 7 * 24 * 60 * 60 * 1000L
+//
+//            alarmManager.setRepeating(
+//                AlarmManager.RTC_WAKEUP,
+//                calendar.timeInMillis,
+//                timeRepeat,
+//                pendingIntent
+//            )
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
     }
 
 

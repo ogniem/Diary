@@ -1,16 +1,26 @@
 package com.diary.activity
 
+import android.Manifest
+import android.app.AlarmManager
 import android.app.Dialog
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.util.Log
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.diary.Common.convertStringToHour
 import com.diary.Common.invisible
+import com.diary.Common.setReminder
 import com.diary.Common.visible
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
@@ -18,13 +28,15 @@ import com.diary.database.ScheduleRepository
 import com.diary.database.ScheduleViewModel
 import com.diary.databinding.ActivityMainBinding
 import com.diary.databinding.DialogCreateScheduleBinding
-import com.diary.fragment.ScheduleFragment
 import com.diary.fragment.DiaryFragment
 import com.diary.fragment.ReportFragment
+import com.diary.fragment.ScheduleFragment
 import com.diary.fragment.SettingFragment
+import com.diary.service.ReminderBroadCastReceiver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 
 class MainActivity : BaseActivity() {
@@ -59,6 +71,14 @@ class MainActivity : BaseActivity() {
         val scheduleRepository = ScheduleRepository(scheduleDao)
         scheduleViewModel = ScheduleViewModel(scheduleRepository)
 
+        scheduleViewModel.getAllSchedules().observe(this) {
+            if (it.isEmpty()) {
+                return@observe
+            }
+            for (schedule in it) {
+                setReminder(schedule)
+            }
+        }
         binding.btnAdd.setOnClickListener {
             if (fragSelect == 2) {
                 showAddDialog()
@@ -67,6 +87,7 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
 
     private fun selectFragment(fragSelected: Int) {
         fragSelect = fragSelected
@@ -123,6 +144,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
+
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(binding.fragContainer.id, fragment)
@@ -141,12 +163,27 @@ class MainActivity : BaseActivity() {
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
 
-        var isAM = true
-        bindingDialog.btnAm.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#766DE6"))
-        bindingDialog.btnPm.backgroundTintList =
-            ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
-        bindingDialog.btnAm.setTextColor(Color.WHITE)
-        bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+        val calendar = Calendar.getInstance()
+        bindingDialog.nbHour.value = calendar.get(Calendar.HOUR_OF_DAY) + 1
+        bindingDialog.nbMinute.value = calendar.get(Calendar.MINUTE)
+
+        var isAM = calendar.get(Calendar.AM_PM) == Calendar.AM
+
+        if (isAM) {
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnAm.setTextColor(Color.WHITE)
+            bindingDialog.btnPm.setTextColor(Color.parseColor("#383655"))
+        } else {
+            bindingDialog.btnPm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#766DE6"))
+            bindingDialog.btnAm.backgroundTintList =
+                ColorStateList.valueOf(Color.parseColor("#00FFFFFF"))
+            bindingDialog.btnPm.setTextColor(Color.WHITE)
+            bindingDialog.btnAm.setTextColor(Color.parseColor("#383655"))
+        }
 
 
         bindingDialog.btnAm.setOnClickListener {

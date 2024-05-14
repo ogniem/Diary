@@ -108,4 +108,5 @@
     <string name="confirm">Confirm</string>
     <string name="delete_diary_content">Are you sure to delete this diary? This action will make it lost forever.</string>
     <string name="delete_diary">Delete Diary</string>
+    <string name="edit_diary">Edit Diary</string>
 </resources>
