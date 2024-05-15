@@ -115,6 +115,11 @@ class ReportFragment : Fragment() {
             }
         }
 
+
+        setFormChart()
+    }
+
+    private fun setFormChart(){
         binding.lineChart.description.text = ""
 
         binding.lineChart.axisLeft.setDrawLabels(false)
@@ -141,9 +146,7 @@ class ReportFragment : Fragment() {
         binding.lineChart.axisLeft.axisMaximum = maxValue
         binding.lineChart.isScaleYEnabled = false
         binding.lineChart.invalidate()
-
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

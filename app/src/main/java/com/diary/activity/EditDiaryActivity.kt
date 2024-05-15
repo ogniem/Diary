@@ -38,31 +38,30 @@ import java.io.ByteArrayOutputStream
 class EditDiaryActivity : BaseActivity() {
     private val binding by lazy { ActivityCreateDiaryBinding.inflate(layoutInflater) }
     private var diary = DiaryEntry()
+    private var diaryHolder = DiaryEntry()
     private var isEditting = false
     private var isShowing = false
-    private var image1 = ""
-    private var image2 = ""
-    private var image3 = ""
     private var imgSelect = 0
-    private var emotion = 0
     private lateinit var diaryViewModel: DiaryViewModel
 
-    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            insertImageToList(uri.toString())
-            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            this.contentResolver.takePersistableUriPermission(uri, flag)
-        } else {
-            Log.d("PhotoPicker", "No media selected")
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                insertImageToList(uri.toString())
+                val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                this.contentResolver.takePersistableUriPermission(uri, flag)
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val diaryEntryDao = DiaryDatabase.getInstance(this).diaryEntryDao()
-        val diaryRepository = DiaryRepository(diaryEntryDao)
-        diaryViewModel = DiaryViewModel(diaryRepository)
+
+        diaryViewModel =
+            DiaryViewModel(DiaryRepository(DiaryDatabase.getInstance(this).diaryEntryDao()))
+
         val id = intent.getIntExtra(Common.KEY_POSITION_DIARY, -1)
         if (id == -1) {
             finish()
@@ -70,23 +69,13 @@ class EditDiaryActivity : BaseActivity() {
         }
 
         binding.btnCreate.invisible()
-        binding.btnCreate.text = getText(R.string.edit_diary)
+        binding.btnCreate.text = getText(R.string.save)
 
         diaryViewModel.getAllDiary().observe(this) { list ->
             var diaryEntry: DiaryEntry? = findItemById(list, id)
-
             if (diaryEntry != null) {
                 diary = diaryEntry
-                if (!diary.imageLink1.isNullOrBlank()) {
-                    image1 = diary.imageLink1
-                }
-                if (!diary.imageLink2.isNullOrBlank()) {
-                    image2 = diary.imageLink2
-                }
-                if (!diary.imageLink3.isNullOrBlank()) {
-                    image3 = diary.imageLink3
-                }
-                emotion = diary.emotion
+                diaryHolder = diaryEntry
                 loadImage()
                 binding.edtTitle.setText(diary.title)
                 binding.edtContent.setText(diary.content)
@@ -108,9 +97,12 @@ class EditDiaryActivity : BaseActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
             bindingDialog.btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
+
             if (isShowing) {
                 bindingDialog.btnYes.setOnClickListener {
                     removeImageOutList(imgSelect)
@@ -124,7 +116,7 @@ class EditDiaryActivity : BaseActivity() {
                 bindingDialog.btnYes.setOnClickListener {
                     lifecycleScope.launch {
                         withContext(Dispatchers.IO) {
-                            diaryEntryDao.deleteDiaryEntry(diary)
+                            diaryViewModel.deleteDiary(diary)
                             dialog.dismiss()
                         }
                     }
@@ -135,31 +127,40 @@ class EditDiaryActivity : BaseActivity() {
         }
 
         binding.btnEdit.setOnClickListener {
-            isEditting = !isEditting
-            enableEdittext()
+            openEditMode()
         }
 
         binding.img1.setOnClickListener {
-            if (image1.isNotBlank()) {
+            if (diary.imageLink1.isNotBlank()) {
                 if (!isEditting) {
-                    showImage(1, image1)
+                    showImage(1, diary.imageLink1)
                 }
             }
         }
         binding.img2.setOnClickListener {
-            if (image2.isNotBlank()) {
+            if (diary.imageLink2.isNotBlank()) {
                 if (!isEditting) {
-                    showImage(2, image2)
+                    showImage(2, diary.imageLink2)
                 }
             }
 
         }
         binding.img3.setOnClickListener {
-            if (image3.isNotBlank()) {
+            if (diary.imageLink3.isNotBlank()) {
                 if (!isEditting) {
-                    showImage(3, image3)
+                    showImage(3, diary.imageLink3)
                 }
             }
+        }
+
+        binding.btnDelete1.setOnClickListener {
+            removeImageOutList(1)
+        }
+        binding.btnDelete2.setOnClickListener {
+            removeImageOutList(2)
+        }
+        binding.btnDelete3.setOnClickListener {
+            removeImageOutList(3)
         }
 
         binding.btnBack.setOnClickListener {
@@ -168,16 +169,16 @@ class EditDiaryActivity : BaseActivity() {
     }
 
     private fun insertImageToList(image: String) {
-        if (image1.isBlank()) {
-            image1 = image
+        if (diary.imageLink1.isBlank()) {
+            diary.imageLink1 = image
             binding.btnDelete1.visible()
         } else {
-            if (image2.isBlank()) {
-                image2 = image
+            if (diary.imageLink2.isBlank()) {
+                diary.imageLink2 = image
                 binding.btnDelete2.visible()
             } else {
-                if (image3.isBlank()) {
-                    image3 = image
+                if (diary.imageLink3.isBlank()) {
+                    diary.imageLink3 = image
                     binding.btnDelete3.visible()
                 }
             }
@@ -188,18 +189,25 @@ class EditDiaryActivity : BaseActivity() {
     private fun removeImageOutList(indexImage: Int) {
         when (indexImage) {
             1 -> {
-                image1 = image2
-                image2 = image3
-                image3 = ""
+                diary.imageLink1 = diary.imageLink2
+                diary.imageLink2 = diary.imageLink3
+                diary.imageLink3 = ""
             }
 
             2 -> {
-                image2 = image3
-                image3 = ""
+                diary.imageLink2 = diary.imageLink3
+                diary.imageLink3 = ""
             }
 
             3 -> {
-                image3 = ""
+                diary.imageLink3 = ""
+            }
+        }
+        if (isShowing) {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    diaryViewModel.updateDiary(diary)
+                }
             }
         }
         loadImage()
@@ -244,34 +252,38 @@ class EditDiaryActivity : BaseActivity() {
     }
 
     private fun loadImage() {
-        if (image1.isNotBlank()) {
-            Glide.with(this).load(Uri.parse(image1)).into(binding.img1)
+        if (diary.imageLink1.isNotBlank()) {
+            Glide.with(this).load(Uri.parse(diary.imageLink1)).into(binding.img1)
             if (isEditting) {
                 binding.btnDelete1.visible()
             } else {
-                binding.btnDelete2.gone()
+                binding.btnDelete1.gone()
             }
         } else {
+            binding.btnDelete1.gone()
             binding.img1.setImageResource(R.drawable.img_empty)
         }
-        if (image2.isNotBlank()) {
-            Glide.with(this).load(Uri.parse(image2)).into(binding.img2)
+        if (diary.imageLink2.isNotBlank()) {
+            Glide.with(this).load(Uri.parse(diary.imageLink2)).into(binding.img2)
             if (isEditting) {
                 binding.btnDelete2.visible()
             } else {
                 binding.btnDelete2.gone()
             }
         } else {
+            binding.btnDelete2.gone()
             binding.img2.setImageResource(R.drawable.img_empty)
         }
-        if (image3.isNotBlank()) {
+        if (diary.imageLink3.isNotBlank()) {
             if (isEditting) {
                 binding.btnDelete3.visible()
             } else {
                 binding.btnDelete3.gone()
             }
-            Glide.with(this).load(Uri.parse(image3)).into(binding.img3)
+            Glide.with(this).load(Uri.parse(diary.imageLink3)).into(binding.img3)
         } else {
+
+            binding.btnDelete3.gone()
             binding.img3.setImageResource(R.drawable.img_empty)
         }
     }
@@ -286,7 +298,6 @@ class EditDiaryActivity : BaseActivity() {
             binding.edtContent.isEnabled = false
             binding.edtContent.isFocusable = false
             binding.edtContent.isFocusableInTouchMode = false
-            closeEditMode()
         } else {
             binding.edtTitle.isEnabled = true
             binding.edtTitle.isFocusable = true
@@ -295,7 +306,6 @@ class EditDiaryActivity : BaseActivity() {
             binding.edtContent.isEnabled = true
             binding.edtContent.isFocusable = true
             binding.edtContent.isFocusableInTouchMode = true
-            openEditMode()
         }
     }
 
@@ -317,7 +327,8 @@ class EditDiaryActivity : BaseActivity() {
         if (isShowing) {
             unShowImage()
         } else if (isEditting) {
-            isEditting = false
+            diary = diaryHolder
+            closeEditMode()
         } else {
             super.onBackPressed()
         }
@@ -326,49 +337,23 @@ class EditDiaryActivity : BaseActivity() {
     private fun openEditMode() {
         isEditting = true
         binding.btnCreate.visible()
+        binding.btnEdit.gone()
+        binding.btnDelete.gone()
         loadImage()
         enableEdittext()
     }
 
     private fun closeEditMode() {
         isEditting = false
+        binding.edtTitle.setText(diary.title)
+        binding.edtContent.setText(diary.content)
+        binding.tvEmotion.text = getTextByEmotion(diary.emotion)
+        binding.imgEmotion.setImageResource(getIconByEmotion(diary.emotion))
         binding.btnCreate.gone()
+        binding.btnEdit.visible()
+        binding.btnDelete.visible()
         loadImage()
         enableEdittext()
     }
 
-    private fun showDialogDeleteImage(indexImage: Int) {
-        val bindingDialog = DialogDeleteImageBinding.inflate(layoutInflater)
-        val dialog = Dialog(this)
-        dialog.setContentView(bindingDialog.root)
-        val window = dialog.window
-        window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        dialog.show()
-
-        bindingDialog.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-        bindingDialog.btnYes.setOnClickListener {
-            removeImageOutList(indexImage)
-            dialog.dismiss()
-        }
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                diary.emotion = emotion
-                diary.title = binding.edtTitle.text.toString()
-                diary.imageLink1 = image1
-                diary.imageLink2 = image2
-                diary.imageLink3 = image3
-                diary.content = binding.edtContent.text.toString()
-                diaryViewModel.updateDiary(diary)
-            }
-        }
-    }
 }
