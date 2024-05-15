@@ -1,5 +1,6 @@
 package com.diary.activity
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -30,6 +31,16 @@ class DailyReminderSettingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.sw.isChecked = isEnableReminder()
+
+        binding.tvRepeat.text = when(getRepeat()){
+            1->{getText(R.string.do_not_repeat)}
+            2->{getText(R.string.every_day)}
+            3->{getText(R.string.weekly)}
+            4->{getText(R.string.monthly)}
+            5->{getText(R.string.yearly)}
+            else -> {getText(R.string.every_day)}
+        }
+
         binding.sw.setOnCheckedChangeListener { _, isChecked ->
             setEnableReminder(isChecked)
         }
@@ -46,6 +57,7 @@ class DailyReminderSettingActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     private fun showDialogSetTime() {
         val bindingDialog = DialogSettimeBinding.inflate(layoutInflater)
         val dialog = Dialog(this)
@@ -142,20 +154,28 @@ class DailyReminderSettingActivity : BaseActivity() {
         }
         bindingDialog.btnSettime.setOnClickListener {
 
-            val minute = if (bindingDialog.edtMinute.text.toString().length == 1) {
-                "0" + bindingDialog.edtMinute.text.toString()
-            } else if (bindingDialog.edtMinute.text.toString().length == 0) {
-                "00"
-            } else {
-                bindingDialog.edtMinute.text.toString()
+            val minute = when (bindingDialog.edtMinute.text.toString().length) {
+                1 -> {
+                    "0" + bindingDialog.edtMinute.text.toString()
+                }
+                0 -> {
+                    "00"
+                }
+                else -> {
+                    bindingDialog.edtMinute.text.toString()
+                }
             }
 
-            val hour = if (bindingDialog.edtHour.text.toString().length == 1) {
-                "0" + bindingDialog.edtHour.text.toString()
-            } else if (bindingDialog.edtHour.text.toString().length == 0) {
-                "00"
-            } else {
-                bindingDialog.edtHour.text.toString()
+            val hour = when (bindingDialog.edtHour.text.toString().length) {
+                1 -> {
+                    "0" + bindingDialog.edtHour.text.toString()
+                }
+                0 -> {
+                    "00"
+                }
+                else -> {
+                    bindingDialog.edtHour.text.toString()
+                }
             }
             setDailyReminder(
                 Common.convertHourToString(
@@ -191,27 +211,27 @@ class DailyReminderSettingActivity : BaseActivity() {
 
         bindingPopup.btnDonotrepeat.setOnClickListener {
             setRepeat(1)
-            binding.tvRepeat.setText(getText(R.string.do_not_repeat))
+            binding.tvRepeat.text = getText(R.string.do_not_repeat)
             popupWindow.dismiss()
         }
         bindingPopup.btnEveryday.setOnClickListener {
             setRepeat(2)
-            binding.tvRepeat.setText(getText(R.string.every_day))
+            binding.tvRepeat.text = getText(R.string.every_day)
             popupWindow.dismiss()
         }
         bindingPopup.btnWeekly.setOnClickListener {
             setRepeat(3)
-            binding.tvRepeat.setText(getText(R.string.weekly))
+            binding.tvRepeat.text = getText(R.string.weekly)
             popupWindow.dismiss()
         }
         bindingPopup.btnMonthly.setOnClickListener {
             setRepeat(4)
-            binding.tvRepeat.setText(getText(R.string.monthly))
+            binding.tvRepeat.text = getText(R.string.monthly)
             popupWindow.dismiss()
         }
         bindingPopup.btnYearly.setOnClickListener {
             setRepeat(5)
-            binding.tvRepeat.setText(getText(R.string.yearly))
+            binding.tvRepeat.text = getText(R.string.yearly)
             popupWindow.dismiss()
         }
         popupWindow.showAsDropDown(binding.icDown)

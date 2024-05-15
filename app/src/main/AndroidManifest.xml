@@ -43,11 +43,13 @@
         <activity
             android:name=".activity.CreateDiaryActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditDiaryActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.AddDiaryActivity"
             android:exported="false"

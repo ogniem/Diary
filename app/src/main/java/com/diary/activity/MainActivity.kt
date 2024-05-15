@@ -1,26 +1,18 @@
 package com.diary.activity
 
-import android.Manifest
-import android.app.AlarmManager
 import android.app.Dialog
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.diary.Common.convertStringToHour
 import com.diary.Common.invisible
 import com.diary.Common.setReminder
+import com.diary.Common.setReminderSchedule
 import com.diary.Common.visible
 import com.diary.database.Schedule
 import com.diary.database.ScheduleDatabase
@@ -32,7 +24,6 @@ import com.diary.fragment.DiaryFragment
 import com.diary.fragment.ReportFragment
 import com.diary.fragment.ScheduleFragment
 import com.diary.fragment.SettingFragment
-import com.diary.service.ReminderBroadCastReceiver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -76,9 +67,10 @@ class MainActivity : BaseActivity() {
                 return@observe
             }
             for (schedule in it) {
-                setReminder(schedule)
+                setReminderSchedule(schedule)
             }
         }
+        setReminder()
         binding.btnAdd.setOnClickListener {
             if (fragSelect == 2) {
                 showAddDialog()

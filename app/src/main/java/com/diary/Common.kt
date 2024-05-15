@@ -3,18 +3,14 @@
 package com.diary
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.util.Log
 import android.view.View
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.diary.database.DiaryEntry
 import com.diary.database.Schedule
 import com.diary.model.Day
@@ -35,6 +31,7 @@ object Common {
     private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     fun getListLanguages(): List<Language> {
         return listOf(
+            Language(R.string.vietnam, R.drawable.ic_vietnam, "vi"),
             Language(R.string.english, R.drawable.ic_england_flag, "en"),
             Language(R.string.hindi, R.drawable.ic_india_flag, "hi"),
             Language(R.string.spanish, R.drawable.ic_spanish_flag, "es"),
@@ -319,7 +316,7 @@ object Common {
         return items.find { it.id == id }
     }
 
-    fun Context.setReminder(schedule: Schedule) {
+    fun Context.setReminderSchedule(schedule: Schedule) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         if (!schedule.isReminder) {
@@ -389,5 +386,63 @@ object Common {
         }
     }
 
+    fun Context.setReminder() {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+        if (isEnableReminder()) {
+            val existingIntent = Intent(this, ReminderBroadCastReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                -1,
+                existingIntent,
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+            )
+            pendingIntent?.let {
+                alarmManager.cancel(it)
+                it.cancel()
+            }
+        } else {
+            val calendar = Calendar.getInstance()
+
+            convertStringToHour(getDailyReminder())?.let { (hour, minute, isAM) ->
+                calendar.set(Calendar.HOUR_OF_DAY, hour.toInt() - 1)
+                calendar.set(Calendar.MINUTE, minute.toInt())
+                if (isAM) {
+                    calendar.set(Calendar.AM_PM, Calendar.AM)
+                } else {
+                    calendar.set(Calendar.AM_PM, Calendar.PM)
+                }
+            }
+
+            Log.d("TAG123", "setReminderád gsadf: " + (calendar.timeInMillis - System.currentTimeMillis()))
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            if (calendar.timeInMillis <= System.currentTimeMillis()) {
+                if(getRepeat()<=2){
+                    calendar.add(Calendar.DAY_OF_YEAR, 1)
+                }else if(getRepeat()==3){
+                    calendar.add(Calendar.DAY_OF_YEAR, 7)
+                }else if(getRepeat()==4){
+                    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)+1)
+                }else{
+                    calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR)+1)
+                }
+            }
+
+            val intent = Intent(this, ReminderBroadCastReceiver::class.java).apply {
+                putExtra("alarmId", -1)
+                putExtra("title", getString(R.string.daily_reminder))
+                putExtra("content", getString(R.string.daily_reminder_content))
+            }
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                -1,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
+    }
 }

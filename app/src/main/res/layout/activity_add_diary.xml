@@ -50,6 +50,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/rl_title"
         android:layout_marginTop="60dp"
         android:text="@string/how_are_you_feeling_right_now"
@@ -57,7 +58,7 @@
         android:textSize="24sp"
         android:gravity="center"
         android:fontFamily="@font/nunito_bold"
-        android:textColor="#383655"/>
+        android:textColor="@color/white"/>
 
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Diary</string>
+    <string name="app_name" translatable="false">Diary</string>
 
 
     <string name="txt_continue">Continue</string>
@@ -7,6 +7,7 @@
     <string name="intro2">Reminder to record diary according to your wishes</string>
     <string name="intro3">Set a password to keep your diary private and safe</string>
 
+    <string name="vietnam">Vietnamese</string>
     <string name="english">English</string>
     <string name="hindi">Hindi</string>
     <string name="spanish">Spanish</string>
@@ -36,6 +37,13 @@
     <string name="set_security_question">Set Security Question</string>
     <string name="select_security_question">Select security question</string>
     <string name="recovery_answer">Recovery Answer</string>
+
+
+
+
+
+
+
 
     <string name="question_1">"What is your mother's name?"</string>
     <string name="question_2">"What is your father's name?"</string>
@@ -72,7 +80,6 @@
     <string name="delete_img">Delete Image?</string>
     <string name="no_cancel">No, cancel</string>
     <string name="yes_delete">Yes, delete</string>
-
     <string name="hello">Hello,</string>
     <string name="hello_noname">Hello, No name</string>
     <string name="enter_your_passcode">Enter your passcode</string>
@@ -109,4 +116,5 @@
     <string name="delete_diary_content">Are you sure to delete this diary? This action will make it lost forever.</string>
     <string name="delete_diary">Delete Diary</string>
     <string name="edit_diary">Edit Diary</string>
+    <string name="daily_reminder_content">It\'s time to write a diary</string>
 </resources>

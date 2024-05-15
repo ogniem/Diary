@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.diary.Common
 import com.diary.Common.isFirstOpenApp
+import com.diary.Common.visible
 import com.diary.adapter.LanguageAdapter
 import com.diary.databinding.ActivityLanguageBinding
 
@@ -28,6 +29,12 @@ class LanguageActivity : BaseActivity() {
                 }
                 finish()
             }
+        }
+        if(intent.getBooleanExtra("FROM_SETTING", false)){
+            binding.btnBack.visible()
+        }
+        binding.btnBack.setOnClickListener {
+            finish()
         }
     }
 

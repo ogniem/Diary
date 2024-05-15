@@ -95,7 +95,10 @@ class AddDiaryActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         when(getThemeHome()){
-            1-> binding.bgTop.setImageResource(R.drawable.img_add_1)
+            1-> {
+                binding.bgTop.setImageResource(R.drawable.img_add_1)
+                binding.title.setTextColor(Color.parseColor("#383655"))
+            }
             2-> binding.bgTop.setImageResource(R.drawable.img_add_2)
             3-> binding.bgTop.setImageResource(R.drawable.img_add_3)
             4-> binding.bgTop.setImageResource(R.drawable.img_add_4)

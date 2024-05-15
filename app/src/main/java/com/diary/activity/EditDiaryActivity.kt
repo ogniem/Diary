@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
+@Suppress("DEPRECATION")
 class EditDiaryActivity : BaseActivity() {
     private val binding by lazy { ActivityCreateDiaryBinding.inflate(layoutInflater) }
     private var diary = DiaryEntry()
@@ -59,6 +60,8 @@ class EditDiaryActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.btnEdit.visible()
+        binding.btnDelete.visible()
         diaryViewModel =
             DiaryViewModel(DiaryRepository(DiaryDatabase.getInstance(this).diaryEntryDao()))
 
@@ -71,8 +74,20 @@ class EditDiaryActivity : BaseActivity() {
         binding.btnCreate.invisible()
         binding.btnCreate.text = getText(R.string.save)
 
+        binding.btnCreate.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO){
+                    diary.title = binding.edtTitle.text.toString()
+                    diary.content = binding.edtContent.text.toString()
+                    diaryViewModel.updateDiary(diary)
+                    finish()
+                }
+            }
+
+        }
+
         diaryViewModel.getAllDiary().observe(this) { list ->
-            var diaryEntry: DiaryEntry? = findItemById(list, id)
+            val diaryEntry: DiaryEntry? = findItemById(list, id)
             if (diaryEntry != null) {
                 diary = diaryEntry
                 diaryHolder = diaryEntry
@@ -134,6 +149,10 @@ class EditDiaryActivity : BaseActivity() {
             if (diary.imageLink1.isNotBlank()) {
                 if (!isEditting) {
                     showImage(1, diary.imageLink1)
+                }
+            }else{
+                if(isEditting){
+                    showBottomDialog()
                 }
             }
         }
@@ -323,6 +342,7 @@ class EditDiaryActivity : BaseActivity() {
         binding.btnEdit.visible()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (isShowing) {
             unShowImage()
@@ -355,5 +375,17 @@ class EditDiaryActivity : BaseActivity() {
         loadImage()
         enableEdittext()
     }
-
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            val imageUri = data.data
+            insertImageToList(imageUri!!.toString())
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            val imageUri = data.extras?.get("data") as? Bitmap
+            val a = getImageUri(imageUri!!)
+            insertImageToList(a.toString())
+        }
+    }
 }

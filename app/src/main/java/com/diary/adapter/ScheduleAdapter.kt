@@ -12,7 +12,6 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common
 import com.diary.Common.gone
-import com.diary.Common.setReminder
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.database.Schedule

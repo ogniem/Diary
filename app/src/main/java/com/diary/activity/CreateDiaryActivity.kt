@@ -100,6 +100,9 @@ class CreateDiaryActivity : BaseActivity() {
             showDialogDeleteImage(3)
         }
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
 
         binding.btnCreate.setOnClickListener {
 
