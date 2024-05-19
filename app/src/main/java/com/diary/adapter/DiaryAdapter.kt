@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.diary.Common.convertStringToCalendar
 import com.diary.Common.getDay
 import com.diary.Common.getMonth
+import com.diary.Common.getSort
 import com.diary.Common.getYear
 import com.diary.Common.gone
 import com.diary.Common.invisible
@@ -22,10 +23,12 @@ import com.diary.model.Day
 @Suppress("DEPRECATION")
 class DiaryAdapter(
     private val context: Context,
-    private val diaryDays: List<Day>?,
+    private var diaryDays: List<Day>?,
     private val diarylist: List<DiaryEntry>
 ) :
     RecyclerView.Adapter<DiaryAdapter.ViewHolder>() {
+
+    private var sortListNewest = context.getSort()
 
     private val filterlist = mutableListOf<DiaryEntry>()
 
@@ -42,12 +45,16 @@ class DiaryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pos = position
-        val diaryDay = diaryDays?.get(position)
+        val diaryDay = if (sortListNewest) {
+            diaryDays?.get(position)
+        }else{
+            diaryDays!!.reversed().get(position)
+        }
 
         val list = getDiaryOnADay(diaryDay!!)
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             holder.bg.gone()
-        }else{
+        } else {
             holder.bg.visible()
         }
 
@@ -75,7 +82,7 @@ class DiaryAdapter(
         filterlist.clear()
         if (text.isBlank()) {
             filterlist.addAll(diarylist)
-        }else{
+        } else {
             for (diary in diarylist) {
                 if (diary.title.toLowerCase()
                         .contains(text.toLowerCase()) || diary.content.toLowerCase()
@@ -88,13 +95,18 @@ class DiaryAdapter(
         notifyDataSetChanged()
     }
 
+    fun sort(isNewest: Boolean) {
+        sortListNewest = isNewest
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvDay: TextView
         var tvMonth: TextView
         var tvYear: TextView
         var rvDiaryDays: RecyclerView
         var viewSpace: View
-        var bg : LinearLayout
+        var bg: LinearLayout
 
         init {
             tvDay = itemView.findViewById(R.id.tv_day_diary)

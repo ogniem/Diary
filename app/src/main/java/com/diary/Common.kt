@@ -64,6 +64,7 @@ object Common {
         val configuration = resources.configuration
         val locale = Locale(getListLanguages()[getLanguage(context)].key)
         configuration.locale = locale
+        Log.d("TAG123", "setLocale: " + locale)
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
 
@@ -204,6 +205,18 @@ object Common {
         return sharedPreferences.getInt("REPEAT", 2)
     }
 
+    fun Context.setSort(isNewest: Boolean) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("SORT", isNewest)
+        editor.apply()
+    }
+
+    fun Context.getSort(): Boolean {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getBoolean("SORT", true)
+    }
+
     fun Calendar.convertCalendarToString(): String {
         return simpleDateFormat.format(this.time)
     }
@@ -276,7 +289,7 @@ object Common {
     }
 
     fun Context.getTextByEmotion(emotion: Int): String {
-        val textSource =  when (emotion) {
+        val textSource = when (emotion) {
             0 -> {
                 R.string.emotion_1
             }
@@ -414,19 +427,22 @@ object Common {
                 }
             }
 
-            Log.d("TAG123", "setReminderád gsadf: " + (calendar.timeInMillis - System.currentTimeMillis()))
+            Log.d(
+                "TAG123",
+                "setReminderád gsadf: " + (calendar.timeInMillis - System.currentTimeMillis())
+            )
             calendar.set(Calendar.SECOND, 0)
             calendar.set(Calendar.MILLISECOND, 0)
 
             if (calendar.timeInMillis <= System.currentTimeMillis()) {
-                if(getRepeat()<=2){
+                if (getRepeat() <= 2) {
                     calendar.add(Calendar.DAY_OF_YEAR, 1)
-                }else if(getRepeat()==3){
+                } else if (getRepeat() == 3) {
                     calendar.add(Calendar.DAY_OF_YEAR, 7)
-                }else if(getRepeat()==4){
-                    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)+1)
-                }else{
-                    calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR)+1)
+                } else if (getRepeat() == 4) {
+                    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
+                } else {
+                    calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
                 }
             }
 

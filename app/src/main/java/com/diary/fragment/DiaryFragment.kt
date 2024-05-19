@@ -1,16 +1,24 @@
 package com.diary.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.PopupWindow
 import androidx.fragment.app.Fragment
 import com.diary.Common
+import com.diary.Common.getRepeat
+import com.diary.Common.getSort
 import com.diary.Common.getThemeHome
 import com.diary.Common.getUserName
+import com.diary.Common.setRepeat
+import com.diary.Common.setSort
 import com.diary.Common.visible
 import com.diary.R
 import com.diary.adapter.DiaryAdapter
@@ -19,6 +27,7 @@ import com.diary.database.DiaryEntry
 import com.diary.database.DiaryRepository
 import com.diary.database.DiaryViewModel
 import com.diary.databinding.FragmentDiaryBinding
+import com.diary.databinding.PopupSortBinding
 
 
 class DiaryFragment : Fragment() {
@@ -64,6 +73,33 @@ class DiaryFragment : Fragment() {
             binding.tvHello.text = getString(R.string.hello) + " " + requireContext().getUserName()
         } else {
             binding.tvHello.text = getString(R.string.hello_noname)
+        }
+        binding.btnSort.setOnClickListener {
+            val bindingPopup = PopupSortBinding.inflate(layoutInflater)
+
+            val popupWindow = PopupWindow(requireContext())
+            popupWindow.contentView = bindingPopup.root
+            popupWindow.width = WindowManager.LayoutParams.WRAP_CONTENT
+            popupWindow.height = WindowManager.LayoutParams.WRAP_CONTENT
+            popupWindow.isFocusable = true
+            popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            if (requireContext().getSort()) {
+                 bindingPopup.icNew.setImageResource(R.drawable.ic_checked)
+            }else{
+                bindingPopup.icOld.setImageResource(R.drawable.ic_checked)
+            }
+            bindingPopup.btnNew.setOnClickListener {
+                requireContext().setSort(true)
+                adapter.sort(true)
+                popupWindow.dismiss()
+            }
+            bindingPopup.btnOld.setOnClickListener {
+                requireContext().setSort(false)
+                adapter.sort(false)
+                popupWindow.dismiss()
+            }
+            popupWindow.showAsDropDown(binding.btnSort)
         }
     }
 

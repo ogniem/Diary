@@ -25,7 +25,7 @@ class IntroActivity : BaseActivity() {
             if (binding.vp.currentItem < 2) {
                 binding.vp.currentItem += 1
             } else {
-                startActivity(Intent(this, LanguageActivity::class.java))
+                startActivity(Intent(this, NameActivity::class.java))
                 finish()
             }
         }

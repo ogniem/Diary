@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.diary.Common.getPasscode
+import com.diary.Common.isFirstOpenApp
 import com.diary.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
@@ -37,17 +38,20 @@ class SplashActivity : BaseActivity() {
         }
 
         binding.btnContinue.setOnClickListener {
-//            if (getPasscode().isNotBlank()) {
-//                showDialog {
-//                    startActivity(Intent(this, MainActivity::class.java))
-//                    finish()
-//                }
-//            } else {
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-//            }
+            if (getPasscode().isNotBlank()) {
+                showDialog {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+            } else {
+                if(isFirstOpenApp()){
+                    startActivity(Intent(this, LanguageActivity::class.java))
+                    finish()
+                }else{
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+            }
         }
     }
-
-
 }

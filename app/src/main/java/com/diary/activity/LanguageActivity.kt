@@ -22,15 +22,11 @@ class LanguageActivity : BaseActivity() {
                 finishAffinity()
                 startActivity(Intent(this, MainActivity::class.java).putExtra("IS_SETTING", true))
             } else {
-                if (isFirstOpenApp()) {
-                    startActivity(Intent(this, NameActivity::class.java))
-                } else {
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
+                startActivity(Intent(this, IntroActivity::class.java))
                 finish()
             }
         }
-        if(intent.getBooleanExtra("FROM_SETTING", false)){
+        if (intent.getBooleanExtra("FROM_SETTING", false)) {
             binding.btnBack.visible()
         }
         binding.btnBack.setOnClickListener {

@@ -70,6 +70,7 @@ class EditDiaryActivity : BaseActivity() {
             finish()
             return
         }
+        enableEdittext()
 
         binding.btnCreate.invisible()
         binding.btnCreate.text = getText(R.string.save)

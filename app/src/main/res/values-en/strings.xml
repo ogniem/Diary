@@ -37,6 +37,14 @@
     <string name="set_security_question">Set Security Question</string>
     <string name="select_security_question">Select security question</string>
     <string name="recovery_answer">Recovery Answer</string>
+
+
+
+
+
+
+
+
     <string name="question_1">"What is your mother's name?"</string>
     <string name="question_2">"What is your father's name?"</string>
     <string name="question_3">"What is the name of your first school?"</string>
@@ -110,5 +118,4 @@
     <string name="edit_diary">Edit Diary</string>
     <string name="daily_reminder_content">It\'s time to write a diary</string>
     <string name="newest_first">Newest first</string>
-    <string name="oldest_first">Oldest first</string>
 </resources>

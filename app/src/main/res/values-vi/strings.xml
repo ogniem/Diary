@@ -79,8 +79,8 @@
     <string name="forgot_your_password_recover_now">Quên mật khẩu? Khôi phục ngay!</string>
 
     <string name="error_pass">Mã bảo mật không đúng\n</string>
-    <string name="schedule">Lịch trình</string>
-    <string name="create_schedule">Tạo lịch trình</string>
+    <string name="schedule">Thời khóa biểu</string>
+    <string name="create_schedule">Tạo thời khóa biểu</string>
     <string name="content">Nội dung</string>
     <string name="reminder">Nhắc nhở</string>
     <string name="nocontent">Không có nội dung</string>
@@ -102,8 +102,8 @@
     <string name="weekly">Hàng tuần</string>
     <string name="monthly">Hàng tháng</string>
     <string name="yearly">Hàng năm</string>
-    <string name="delete_schedule">Xóa lịch trình?</string>
-    <string name="edit_schedule">Chỉnh sửa lịch trình</string>
+    <string name="delete_schedule">Xóa thời khóa biểu?</string>
+    <string name="edit_schedule">Chỉnh sửa thời khóa biểu</string>
     <string name="confirm">Xác nhận</string>
     <string name="delete_diary_content">Bạn có chắc chắn muốn xóa nhật ký này không? Hành động này sẽ làm mất nó mãi mãi.</string>
     <string name="delete_diary">Xóa nhật ký</string>

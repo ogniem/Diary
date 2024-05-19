@@ -15,7 +15,6 @@ import com.diary.databinding.DialogPassCodeBinding
 
 @Suppress("DEPRECATION")
 open class BaseActivity : AppCompatActivity() {
-    private var enableShowDialog = false
     private var isShowing = false
     private var dialog: Dialog? = null
     private var bindingDialog: DialogPassCodeBinding? = null
@@ -44,13 +43,6 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-//        if (enableShowDialog && getPasscode().isNotBlank()) {
-//            showDialog {}
-//            enableShowDialog = false
-//        }
-    }
 
     fun showDialog(onCancelDialog: () -> Unit) {
         if (isShowing) {
@@ -112,11 +104,6 @@ open class BaseActivity : AppCompatActivity() {
         }
         dialog?.show()
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        enableShowDialog = true
     }
 
     private fun editCode(key: Int) {
