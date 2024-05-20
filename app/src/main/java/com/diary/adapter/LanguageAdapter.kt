@@ -17,7 +17,7 @@ import com.diary.R
 class LanguageAdapter(private val context: Context) :
     RecyclerView.Adapter<LanguageAdapter.ViewHolder>() {
 
-    private var selectedItem = 0
+    private var selectedItem = Common.getLanguage(context)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -25,8 +25,8 @@
     <string name="skip">Bỏ qua</string>
     <string name="daily_reminder">Nhắc nhở hàng ngày</string>
     <string name="you_can_change_the_time_latter_in_setting">Bạn có thể thay đổi thời gian sau này trong Cài đặt</string>
-    <string name="am">Sáng</string>
-    <string name="pm">Chiều</string>
+    <string name="am">SA</string>
+    <string name="pm">CH</string>
     <string name="set_passcode">Thiết lập mã PIN</string>
     <string name="create_4_digit_pin_for_your_diary">Tạo mã PIN 4 chữ số cho nhật ký của bạn</string>
     <string name="confirm_pin">Xác nhận mã PIN</string>

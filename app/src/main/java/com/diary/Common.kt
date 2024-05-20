@@ -59,13 +59,15 @@ object Common {
         visibility = View.GONE
     }
 
+
     fun setLocale(context: Context) {
-        val resources = Resources.getSystem()
-        val configuration = resources.configuration
         val locale = Locale(getListLanguages()[getLanguage(context)].key)
-        configuration.locale = locale
+        Locale.setDefault(locale)
         Log.d("TAG123", "setLocale: " + locale)
-        resources.updateConfiguration(configuration, resources.displayMetrics)
+        val resources = context.resources
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     fun saveLanguage(context: Context, position: Int) {
@@ -75,7 +77,7 @@ object Common {
         editor.apply()
     }
 
-    private fun getLanguage(context: Context): Int {
+    fun getLanguage(context: Context): Int {
         val sharedPreferences = context.getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getInt("KEY_LANG", 0)
     }
