@@ -33,7 +33,8 @@
             android:textColor="#383655"
             android:fontFamily="@font/nunito_bold"
             android:textSize="20sp"
-            android:gravity="center"
+            android:id="@+id/tv_title"
+            android:layout_marginStart="16dp"
             android:layout_toRightOf="@+id/btn_back"
             android:text="@string/set_security_question"/>
     </RelativeLayout>

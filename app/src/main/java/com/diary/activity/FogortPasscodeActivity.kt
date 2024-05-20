@@ -6,21 +6,19 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.diary.Common.getSercurityAns
 import com.diary.Common.getSercurityQues
-import com.diary.Common.setSercurityAns
-import com.diary.Common.setSercurityQues
 import com.diary.R
 import com.diary.databinding.ActivitySecurityQuestionBinding
 
-
-class SecurityQuestionActivity : BaseActivity() {
+class FogortPasscodeActivity : BaseActivity() {
     private val binding by lazy { ActivitySecurityQuestionBinding.inflate(layoutInflater) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.spv.setSelection(getSercurityQues())
+        binding.tvTitle.text = getText(R.string.get_passcode_again)
 
-        binding.edtAnswer.setText(getSercurityAns())
+        binding.btnSave.text = getText(R.string.txt_continue)
 
         val adapter = ArrayAdapter(
             this,
@@ -33,7 +31,6 @@ class SecurityQuestionActivity : BaseActivity() {
                 getText(R.string.question_5),
             )
         )
-
         binding.spv.adapter = adapter
 
         binding.btnBack.setOnClickListener {
@@ -41,17 +38,15 @@ class SecurityQuestionActivity : BaseActivity() {
         }
 
         binding.btnSave.setOnClickListener {
-            if (binding.edtAnswer.text.isNotBlank()) {
-                setSercurityQues(binding.spv.selectedItemPosition)
-                setSercurityAns(binding.edtAnswer.text.toString())
-                if(intent.getBooleanExtra("FROM_SETTING",false)){
-                    Toast.makeText(this, getText(R.string.change_sercurity), Toast.LENGTH_LONG).show()
-                    finish()
-                }else{
-                    startActivity(Intent(this, MainActivity::class.java))
-                }
+            if(binding.spv.selectedItemPosition == getSercurityQues()&& binding.edtAnswer.text.toString().toLowerCase() == getSercurityAns().toLowerCase()){
+                startActivity(Intent(this, ChangePasscodeActivity::class.java).putExtra("FROM_REPASS",true))
+                finish()
             }else{
-                Toast.makeText(this, getText(R.string.change_sercurity_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    getString(R.string.error_ques),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

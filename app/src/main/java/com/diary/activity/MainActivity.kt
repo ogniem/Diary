@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.diary.Common.invisible
+import com.diary.Common.setFirstOpenApp
 import com.diary.Common.setReminder
 import com.diary.Common.setReminderSchedule
 import com.diary.Common.visible
@@ -38,7 +39,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
+        setFirstOpenApp()
         if (intent.getBooleanExtra("IS_SETTING", false)) {
             selectFragment(4)
         } else {

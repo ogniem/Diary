@@ -109,4 +109,16 @@
     <string name="delete_diary">Xóa nhật ký</string>
     <string name="edit_diary">Chỉnh sửa nhật ký</string>
     <string name="daily_reminder_content">Đã đến lúc viết nhật ký</string>
+    <string name="newest_first">Mới nhất trước</string>
+    <string name="oldest_first">Cũ nhất trước</string>
+    <string name="enable_diary_lock">Kích hoạt khóa nhật ký</string>
+    <string name="set_diary_lock">Đặt khóa nhật ký</string>
+    <string name="change_passcode">Đổi mật khẩu</string>
+    <string name="enter_your_new_passcode">Nhập mật khẩu mới</string>
+    <string name="your_passcode_changde">Mật khẩu của bạn đã được thay đổi!</string>
+    <string name="change_sercurity">Câu hỏi và câu trả lời bảo mật đã được thay đổi!</string>
+    <string name="change_sercurity_error">Câu trả lời không thể để trống!</string>
+    <string name="get_passcode_again">Lấy lại mật khẩu</string>
+    <string name="error_ques">Câu hỏi hoặc câu trả lời bảo mật của bạn sai. Hãy nhớ kỹ!</string>
+
 </resources>

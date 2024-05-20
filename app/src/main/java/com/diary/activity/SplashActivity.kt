@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.diary.Common.getPasscode
+import com.diary.Common.isEnableLock
 import com.diary.Common.isFirstOpenApp
 import com.diary.databinding.ActivitySplashBinding
 
@@ -38,7 +39,7 @@ class SplashActivity : BaseActivity() {
         }
 
         binding.btnContinue.setOnClickListener {
-            if (getPasscode().isNotBlank()) {
+            if (getPasscode().isNotBlank() && isEnableLock()) {
                 showDialog {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()

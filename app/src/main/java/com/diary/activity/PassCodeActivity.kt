@@ -8,7 +8,7 @@ import com.diary.Common.setPasscode
 import com.diary.R
 import com.diary.databinding.ActivitySetPassCodeBinding
 
-class SetPassCodeActivity : BaseActivity() {
+class PassCodeActivity : BaseActivity() {
     private val binding by lazy { ActivitySetPassCodeBinding.inflate(layoutInflater) }
     private var isConfirm = false
     private var passCodeNow = ""

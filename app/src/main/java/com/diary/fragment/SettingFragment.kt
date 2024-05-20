@@ -15,6 +15,7 @@ import com.diary.R
 import com.diary.activity.ChooseThemeActivity
 import com.diary.activity.DailyReminderSettingActivity
 import com.diary.activity.LanguageActivity
+import com.diary.activity.SetDiaryLockActivity
 import com.diary.databinding.DialogRenameBinding
 import com.diary.databinding.FragmentSettingBinding
 
@@ -37,7 +38,7 @@ class SettingFragment : Fragment() {
             startActivity(Intent(requireContext(), ChooseThemeActivity::class.java))
         }
         binding.btnPass.setOnClickListener {
-
+            startActivity(Intent(requireContext(), SetDiaryLockActivity::class.java))
         }
         binding.btnReminder.setOnClickListener {
             startActivity(Intent(requireContext(), DailyReminderSettingActivity::class.java))

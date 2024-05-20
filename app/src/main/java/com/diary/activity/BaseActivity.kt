@@ -1,6 +1,7 @@
 package com.diary.activity
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -67,8 +68,7 @@ open class BaseActivity : AppCompatActivity() {
         dialog?.setCancelable(false)
 
         bindingDialog?.btnRecover?.setOnClickListener {
-            dialog?.dismiss()
-            isShowing = false
+            startActivity(Intent(this, FogortPasscodeActivity::class.java))
         }
 
         bindingDialog?.btnBackspace?.setOnClickListener {

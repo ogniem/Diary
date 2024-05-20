@@ -107,5 +107,16 @@
     <string name="delete_diary">다이어리 삭제</string>
     <string name="edit_diary">다이어리 편집</string>
     <string name="daily_reminder_content">다이어리를 작성할 시간입니다</string>
+    <string name="newest_first">최신 순</string>
+    <string name="oldest_first">오래된 순</string>
+    <string name="enable_diary_lock">일기 잠금 활성화</string>
+    <string name="set_diary_lock">일기 잠금 설정</string>
+    <string name="change_passcode">암호 변경</string>
+    <string name="enter_your_new_passcode">새 암호를 입력하세요</string>
+    <string name="your_passcode_changde">비밀번호가 변경되었습니다!</string>
+    <string name="change_sercurity">보안 질문과 답변이 변경되었습니다!</string>
+    <string name="change_sercurity_error">답변을 비워둘 수 없습니다!</string>
+    <string name="get_passcode_again">비밀번호 복구</string>
+    <string name="error_ques">보안 질문 또는 답변이 잘못되었습니다. 신중히 기억하세요!</string>
 
 </resources>

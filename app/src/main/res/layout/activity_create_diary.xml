@@ -47,12 +47,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_emotion" />
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sb_emotion"
+        app:layout_constraintTop_toBottomOf="@+id/tv_emotion"
+        android:layout_marginTop="24dp"
+        android:progress="4"
+        android:max="6"
+        android:thumb="@drawable/thumb"
+        android:visibility="gone"
+        android:minHeight="8dp"
+        android:maxHeight="8dp"
+        android:progressDrawable="@drawable/bg_progress_seekbar"
+        android:layout_marginHorizontal="30dp"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_create"
-        app:layout_constraintTop_toBottomOf="@+id/tv_emotion">
+        app:layout_constraintTop_toBottomOf="@+id/sb_emotion">
 
         <LinearLayout
             android:layout_width="match_parent"

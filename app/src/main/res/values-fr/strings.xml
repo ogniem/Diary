@@ -106,5 +106,16 @@
     <string name="delete_diary">Supprimer le journal</string>
     <string name="edit_diary">Modifier le journal</string>
     <string name="daily_reminder_content">Il est temps d\'écrire un journal</string>
+    <string name="newest_first">Le plus récent d\'abord</string>
+    <string name="oldest_first">Le plus ancien d\'abord</string>
+    <string name="enable_diary_lock">Activer le verrouillage du journal</string>
+    <string name="set_diary_lock">Définir le verrouillage du journal</string>
+    <string name="change_passcode">Changer le code d\'accès</string>
+    <string name="enter_your_new_passcode">Entrez le nouveau code d\'accès</string>
+    <string name="your_passcode_changde">Votre mot de passe a été changé !</string>
+    <string name="change_sercurity">Les questions et réponses de sécurité ont été changées !</string>
+    <string name="change_sercurity_error">La réponse ne peut pas être vide !</string>
+    <string name="get_passcode_again">Récupération de mot de passe</string>
+    <string name="error_ques">Votre question ou réponse de sécurité est incorrecte. Souvenez-vous bien !</string>
 
 </resources>

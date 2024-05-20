@@ -63,7 +63,6 @@ object Common {
     fun setLocale(context: Context) {
         val locale = Locale(getListLanguages()[getLanguage(context)].key)
         Locale.setDefault(locale)
-        Log.d("TAG123", "setLocale: " + locale)
         val resources = context.resources
         val config = resources.configuration
         config.setLocale(locale)
@@ -117,7 +116,17 @@ object Common {
         val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
         return sharedPreferences.getBoolean("ENABLE_REMINDER", true)
     }
+    fun Context.setEnableLock(enable: Boolean) {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("ENABLE_LOCK", enable)
+        editor.apply()
+    }
 
+    fun Context.isEnableLock(): Boolean {
+        val sharedPreferences = getSharedPreferences("app_preferences", MODE_PRIVATE)
+        return sharedPreferences.getBoolean("ENABLE_LOCK", true)
+    }
     fun convertHourToString(hour: String, minute: String, isAM: Boolean): String {
         val period = if (isAM) "AM" else "PM"
         return String.format("%s:%s %s", hour, minute, period)
@@ -404,7 +413,7 @@ object Common {
     fun Context.setReminder() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        if (isEnableReminder()) {
+        if (!isEnableReminder()) {
             val existingIntent = Intent(this, ReminderBroadCastReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
                 this,
@@ -449,7 +458,7 @@ object Common {
             }
 
             val intent = Intent(this, ReminderBroadCastReceiver::class.java).apply {
-                putExtra("alarmId", -1)
+                putExtra("alarmId", -2)
                 putExtra("title", getString(R.string.daily_reminder))
                 putExtra("content", getString(R.string.daily_reminder_content))
             }

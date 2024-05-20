@@ -106,5 +106,16 @@
     <string name="delete_diary">डायरी हटाएं</string>
     <string name="edit_diary">डायरी संपादित करें</string>
     <string name="daily_reminder_content">एक डायरी लिखने का समय है</string>
+    <string name="newest_first">सबसे नया पहले</string>
+    <string name="oldest_first">सबसे पुराना पहले</string>
+    <string name="enable_diary_lock">डायरी लॉक सक्षम करें</string>
+    <string name="set_diary_lock">डायरी लॉक सेट करें</string>
+    <string name="change_passcode">पासकोड बदलें</string>
+    <string name="enter_your_new_passcode">नया पासकोड दर्ज करें</string>
+    <string name="your_passcode_changde">आपका पासवर्ड बदल दिया गया है!</string>
+    <string name="change_sercurity">सुरक्षा प्रश्न और उत्तर बदल दिए गए हैं!</string>
+    <string name="change_sercurity_error">उत्तर खाली नहीं छोड़ा जा सकता!</string>
+    <string name="get_passcode_again">पासवर्ड पुनः प्राप्ति</string>
+    <string name="error_ques">आपका सुरक्षा प्रश्न या उत्तर गलत है। सावधानी से याद रखें!</string>
 
 </resources>

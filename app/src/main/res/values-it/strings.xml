@@ -107,5 +107,16 @@
     <string name="delete_diary">Elimina diario</string>
     <string name="edit_diary">Modifica diario</string>
     <string name="daily_reminder_content">È il momento di scrivere un diario</string>
+    <string name="newest_first">Il più recente prima</string>
+    <string name="oldest_first">Il più antico prima</string>
+    <string name="enable_diary_lock">Abilita blocco diario</string>
+    <string name="set_diary_lock">Imposta blocco diario</string>
+    <string name="change_passcode">Cambia codice di accesso</string>
+    <string name="enter_your_new_passcode">Inserisci il nuovo codice di accesso</string>
+    <string name="your_passcode_changde">La tua password è stata cambiata!</string>
+    <string name="change_sercurity">Domande e risposte di sicurezza sono state cambiate!</string>
+    <string name="change_sercurity_error">La risposta non può essere vuota!</string>
+    <string name="get_passcode_again">Recupero password</string>
+    <string name="error_ques">La tua domanda o risposta di sicurezza è sbagliata. Ricorda attentamente!</string>
 
 </resources>

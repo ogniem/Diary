@@ -106,5 +106,16 @@
     <string name="delete_diary">حذف اليومية</string>
     <string name="edit_diary">تحرير اليومية</string>
     <string name="daily_reminder_content">حان الوقت لكتابة يومية</string>
+    <string name="newest_first">الأحدث أولاً</string>
+    <string name="oldest_first">الأقدم أولاً</string>
+    <string name="enable_diary_lock">تمكين قفل اليوميات</string>
+    <string name="set_diary_lock">ضبط قفل اليوميات</string>
+    <string name="change_passcode">تغيير رمز المرور</string>
+    <string name="enter_your_new_passcode">أدخل رمز المرور الجديد</string>
+    <string name="your_passcode_changde">تم تغيير كلمة المرور الخاصة بك!</string>
+    <string name="change_sercurity">تم تغيير الأسئلة والأجوبة الأمنية!</string>
+    <string name="change_sercurity_error">لا يمكن ترك الإجابة فارغة!</string>
+    <string name="get_passcode_again">استرجاع كلمة المرور</string>
+    <string name="error_ques">سؤال الأمان أو الإجابة خاطئة. تذكر بعناية!</string>
 
 </resources>

@@ -108,5 +108,16 @@
     <string name="delete_diary">Hapus Diari</string>
     <string name="edit_diary">Edit Diari</string>
     <string name="daily_reminder_content">Sudah waktunya untuk menulis diari</string>
+    <string name="newest_first">Terbaru pertama</string>
+    <string name="oldest_first">Terlama pertama</string>
+    <string name="enable_diary_lock">Aktifkan kunci buku harian</string>
+    <string name="set_diary_lock">Atur kunci buku harian</string>
+    <string name="change_passcode">Ganti kode sandi</string>
+    <string name="enter_your_new_passcode">Masukkan kode sandi baru</string>
+    <string name="your_passcode_changde">Kata sandi Anda telah diubah!</string>
+    <string name="change_sercurity">Pertanyaan dan jawaban keamanan telah diubah!</string>
+    <string name="change_sercurity_error">Jawaban tidak boleh kosong!</string>
+    <string name="get_passcode_again">Pemulihan kata sandi</string>
+    <string name="error_ques">Pertanyaan atau jawaban keamanan Anda salah. Ingat dengan hati-hati!</string>
 
 </resources>

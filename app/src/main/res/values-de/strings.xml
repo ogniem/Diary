@@ -106,5 +106,16 @@
     <string name="delete_diary">Tagebuch löschen</string>
     <string name="edit_diary">Tagebuch bearbeiten</string>
     <string name="daily_reminder_content">Es ist Zeit, ein Tagebuch zu schreiben</string>
+    <string name="newest_first">Neueste zuerst</string>
+    <string name="oldest_first">Älteste zuerst</string>
+    <string name="enable_diary_lock">Tagebuchsperre aktivieren</string>
+    <string name="set_diary_lock">Tagebuchsperre setzen</string>
+    <string name="change_passcode">Passcode ändern</string>
+    <string name="enter_your_new_passcode">Neuen Passcode eingeben</string>
+    <string name="your_passcode_changde">Ihr Passwort wurde geändert!</string>
+    <string name="change_sercurity">Sicherheitsfragen und -antworten wurden geändert!</string>
+    <string name="change_sercurity_error">Die Antwort darf nicht leer bleiben!</string>
+    <string name="get_passcode_again">Passwort-Wiederherstellung</string>
+    <string name="error_ques">Ihre Sicherheitsfrage oder -antwort ist falsch. Denken Sie sorgfältig nach!</string>
 
 </resources>

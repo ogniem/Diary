@@ -18,6 +18,7 @@ import com.diary.Common.getRepeat
 import com.diary.Common.isEnableReminder
 import com.diary.Common.setDailyReminder
 import com.diary.Common.setEnableReminder
+import com.diary.Common.setReminder
 import com.diary.Common.setRepeat
 import com.diary.InputFilterMinMax
 import com.diary.R
@@ -184,6 +185,7 @@ class DailyReminderSettingActivity : BaseActivity() {
                     isAMSelect
                 )
             )
+            setReminder()
             binding.tvTime.text = getDailyReminder()
             dialog.dismiss()
         }

@@ -8,8 +8,10 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
@@ -80,6 +82,7 @@ class EditDiaryActivity : BaseActivity() {
                 withContext(Dispatchers.IO){
                     diary.title = binding.edtTitle.text.toString()
                     diary.content = binding.edtContent.text.toString()
+                    diary.emotion = binding.sbEmotion.progress
                     diaryViewModel.updateDiary(diary)
                     finish()
                 }
@@ -97,6 +100,7 @@ class EditDiaryActivity : BaseActivity() {
                 binding.edtContent.setText(diary.content)
                 binding.tvEmotion.text = getTextByEmotion(diary.emotion)
                 binding.imgEmotion.setImageResource(getIconByEmotion(diary.emotion))
+                binding.sbEmotion.progress = diary.emotion
             } else {
                 finish()
             }
@@ -186,6 +190,20 @@ class EditDiaryActivity : BaseActivity() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
+
+        binding.sbEmotion.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                TransitionManager.beginDelayedTransition(binding.main)
+                binding.tvEmotion.text = getTextByEmotion(progress)
+                binding.imgEmotion.setImageResource(getIconByEmotion(progress))
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+            }
+        })
     }
 
     private fun insertImageToList(image: String) {
@@ -318,6 +336,8 @@ class EditDiaryActivity : BaseActivity() {
             binding.edtContent.isEnabled = false
             binding.edtContent.isFocusable = false
             binding.edtContent.isFocusableInTouchMode = false
+
+            binding.sbEmotion.gone()
         } else {
             binding.edtTitle.isEnabled = true
             binding.edtTitle.isFocusable = true
@@ -326,6 +346,7 @@ class EditDiaryActivity : BaseActivity() {
             binding.edtContent.isEnabled = true
             binding.edtContent.isFocusable = true
             binding.edtContent.isFocusableInTouchMode = true
+            binding.sbEmotion.visible()
         }
     }
 

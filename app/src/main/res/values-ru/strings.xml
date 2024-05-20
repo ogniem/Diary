@@ -107,5 +107,16 @@
     <string name="delete_diary">Удалить дневник</string>
     <string name="edit_diary">Редактировать дневник</string>
     <string name="daily_reminder_content">Пора записать в дневник</string>
+    <string name="newest_first">Сначала новые</string>
+    <string name="oldest_first">Сначала старые</string>
+    <string name="enable_diary_lock">Включить блокировку дневника</string>
+    <string name="set_diary_lock">Установить блокировку дневника</string>
+    <string name="change_passcode">Изменить пароль</string>
+    <string name="enter_your_new_passcode">Введите новый пароль</string>
+    <string name="your_passcode_changde">Ваш пароль был изменен!</string>
+    <string name="change_sercurity">Вопросы и ответы безопасности были изменены!</string>
+    <string name="change_sercurity_error">Ответ не может быть пустым!</string>
+    <string name="get_passcode_again">Восстановление пароля</string>
+    <string name="error_ques">Ваш вопрос или ответ на безопасность неверен. Помните тщательно!</string>
 
 </resources>

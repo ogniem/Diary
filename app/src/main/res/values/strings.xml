@@ -111,4 +111,13 @@
     <string name="daily_reminder_content">It\'s time to write a diary</string>
     <string name="newest_first">Newest first</string>
     <string name="oldest_first">Oldest first</string>
+    <string name="enable_diary_lock">Enable diary lock</string>
+    <string name="set_diary_lock">Set Diary Lock</string>
+    <string name="change_passcode">Change passcode</string>
+    <string name="enter_your_new_passcode">Enter new Passcode</string>
+    <string name="your_passcode_changde">Your password has been changed!</string>
+    <string name="change_sercurity">Security questions and answers have been changed!</string>
+    <string name="change_sercurity_error">The answer cannot be left blank!</string>
+    <string name="get_passcode_again">Password retrieval</string>
+    <string name="error_ques">Your security question or answer is wrong. Remember carefully!</string>
 </resources>

@@ -91,7 +91,7 @@ class ReminderActivity : BaseActivity() {
                     isAM
                 )
             )
-            startActivity(Intent(this, SetPassCodeActivity::class.java))
+            startActivity(Intent(this, PassCodeActivity::class.java))
         }
         binding.btnSkip.setOnClickListener {
             finishAffinity()
